@@ -134,6 +134,54 @@
 
   });
 console.log("Supabase connected:", supabaseClient);
+async function loadLecturesFromSupabase() {
+
+  const { data, error } = await supabaseClient
+    .from("courses")
+    .select("id, name, description, lecture_id, batch_id, subject_id, chapter_id, video")
+    .eq("subject_id", subjectId)
+    .eq("chapter_id", subChapterId)
+    .order("lecture_id", { ascending: true });
+
+  if (error) {
+    console.error("Supabase error:", error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    console.log("Supabase mein lectures nahi mile.");
+    return;
+  }
+
+  lectureList.innerHTML = "";
+
+  data.forEach(lecture => {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>▶️ ${lecture.name}</h3>
+    `;
+
+    card.onclick = function() {
+      window.location.href =
+        "lecture.html?subject=" + subjectId +
+        "&chapter=" + chapterId +
+        "&lecture=" + lecture.lecture_id;
+    };
+
+    lectureList.appendChild(card);
+
+  });
+
+}
+
+if (subChapterId) {
+  loadLecturesFromSupabase();
+}
+  
   if (selectedItem) {
 
     chapterTitle.textContent = selectedItem.name;
