@@ -1,1 +1,2 @@
-
+const SUPABASE_URL = "https://ixloyvwvezfyvcswjgjf.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_ST75SqpIHRyBidO9UQc4xA_y7r8YCeK";
