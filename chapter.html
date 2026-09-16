@@ -89,11 +89,12 @@
 
   const subjectId = params.get("subject");
   const chapterId = params.get("chapter");
+  const subChapterId = params.get("subchapter");
 
   const chapterTitle = document.getElementById("chapter-title");
   const lectureList = document.getElementById("lecture-list");
 
-  let selectedChapter = null;
+  let selectedItem = null;
 
   batches.forEach(batch => {
 
@@ -104,7 +105,23 @@
         subject.chapters.forEach(chapter => {
 
           if (chapter.id === chapterId) {
-            selectedChapter = chapter;
+
+            if (subChapterId && chapter.chapters) {
+
+              chapter.chapters.forEach(subChapter => {
+
+                if (subChapter.id === subChapterId) {
+                  selectedItem = subChapter;
+                }
+
+              });
+
+            } else {
+
+              selectedItem = chapter;
+
+            }
+
           }
 
         });
@@ -115,44 +132,75 @@
 
   });
 
-  if (selectedChapter) {
+  if (selectedItem) {
 
-  chapterTitle.textContent = selectedChapter.name;
+    chapterTitle.textContent = selectedItem.name;
 
-  if (selectedChapter.lectures) {
+    if (selectedItem.chapters) {
 
-    selectedChapter.lectures.forEach(lecture => {
+      selectedItem.chapters.forEach(chapter => {
 
-      const card = document.createElement("div");
+        const card = document.createElement("div");
 
-      card.className = "card";
+        card.className = "card";
 
-      card.innerHTML = `
-        <h3>▶️ ${lecture.name}</h3>
+        card.innerHTML = `
+          <h3>📘 ${chapter.name}</h3>
+        `;
+
+        card.onclick = function() {
+
+          window.location.href =
+            "chapter.html?subject=" + subjectId +
+            "&chapter=" + chapterId +
+            "&subchapter=" + chapter.id;
+
+        };
+
+        lectureList.appendChild(card);
+
+      });
+
+    }
+
+    else if (selectedItem.lectures) {
+
+      selectedItem.lectures.forEach(lecture => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>▶️ ${lecture.name}</h3>
+        `;
+
+        card.onclick = function() {
+
+          window.location.href =
+            "lecture.html?subject=" + subjectId +
+            "&chapter=" + chapterId +
+            "&lecture=" + lecture.id;
+
+        };
+
+        lectureList.appendChild(card);
+
+      });
+
+    }
+
+    else {
+
+      lectureList.innerHTML = `
+        <div class="card">
+          <h3>Lectures Coming Soon</h3>
+        </div>
       `;
 
-      card.onclick = function() {
-        window.location.href =
-          "lecture.html?subject=" + subjectId +
-          "&chapter=" + chapterId +
-          "&lecture=" + lecture.id;
-      };
-
-      lectureList.appendChild(card);
-
-    });
-
-  } else {
-
-    lectureList.innerHTML = `
-      <div class="card">
-        <h3>Lectures Coming Soon</h3>
-      </div>
-    `;
+    }
 
   }
-
-}
 
 </script>
 
