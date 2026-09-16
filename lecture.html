@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lecture</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 28px 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 22px 16px 40px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #2563eb;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .page-title {
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .video-box {
+      width: 100%;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      margin-bottom: 18px;
+    }
+
+    .video-box iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .lecture-info {
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .lecture-info p {
+      color: #64748b;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Chal Waha Jate Hai</h1>
+</header>
+
+<div class="container">
+
+  <a class="back" href="javascript:history.back()">← Back</a>
+
+  <h2 class="page-title" id="lecture-title">Lecture</h2>
+
+  <div class="video-box">
+
+    <iframe
+      src="https://drive.google.com/file/d/13tRI42pg76Mn5QV1_olfQpe1L6UEieBX/preview"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+
+  </div>
+
+  <div class="lecture-info">
+    <h2 id="lecture-name">Lecture</h2>
+    <p>इस lecture की video ऊपर player में चलेगी।</p>
+  </div>
+
+</div>
+
+<script src="data.js"></script>
+
+<script>
+
+  const params = new URLSearchParams(window.location.search);
+
+  const subjectId = params.get("subject");
+  const chapterId = params.get("chapter");
+  const lectureId = params.get("lecture");
+
+  const lectureTitle = document.getElementById("lecture-title");
+  const lectureName = document.getElementById("lecture-name");
+
+  let selectedLecture = null;
+
+  batches.forEach(batch => {
+
+    batch.subjects.forEach(subject => {
+
+      if (subject.id === subjectId && subject.chapters) {
+
+        subject.chapters.forEach(chapter => {
+
+          if (chapter.id === chapterId && chapter.lectures) {
+
+            chapter.lectures.forEach(lecture => {
+
+              if (lecture.id === lectureId) {
+                selectedLecture = lecture;
+              }
+
+            });
+
+          }
+
+        });
+
+      }
+
+    });
+
+  });
+
+  if (selectedLecture) {
+
+    lectureTitle.textContent = "🎥 " + selectedLecture.name;
+    lectureName.textContent = selectedLecture.name;
+
+  }
+
+</script>
+
+</body>
+</html>
