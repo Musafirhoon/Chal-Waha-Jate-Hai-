@@ -22,8 +22,10 @@ const batches = [
 
   chapters: [
     {
-  id: "chapter-1",
-  name: "Chapter 1",
+  id: "lecture-1",
+  name: "Lecture 1",
+  video: "1nudGgkObV7FIUtQWm_HxT75KhUKHYLJC"
+},
 
   lectures: [
     {
