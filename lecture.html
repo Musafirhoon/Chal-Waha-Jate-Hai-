@@ -156,8 +156,10 @@ src=""
   if (selectedLecture) {
 
     lectureTitle.textContent = "🎥 " + selectedLecture.name;
-    lectureName.textContent = selectedLecture.name;
-
+    lectureName.textContent = selectedLecture.name; 
+    
+document.querySelector(".video-box iframe").src =
+  "https://drive.google.com/file/d/" + selectedLecture.video + "/preview";
   }
 
 </script>
