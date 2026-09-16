@@ -164,6 +164,21 @@ console.log("Supabase connected:", supabaseClient);
       });
 
     }
+      async function loadLecturesFromSupabase() {
+  const { data, error } = await supabaseClient
+    .from("courses")
+    .select("*")
+    .order("lecture_id", { ascending: true });
+
+  if (error) {
+    console.error("Supabase error:", error);
+    return;
+  }
+
+  console.log("Lectures from Supabase:", data);
+}
+
+loadLecturesFromSupabase();
 
     else if (selectedItem.lectures) {
 
