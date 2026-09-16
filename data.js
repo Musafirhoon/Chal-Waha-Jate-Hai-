@@ -32,13 +32,15 @@ const batches = [
                     video: "1nudGgkObV7FIUtQWm_HxT75KhUKHYLJC"
                   },
                   {
-                    id: "lecture-2",
-                    name: "Lecture 2"
-                  },
+  id: "lecture-2",
+  name: "Lecture 2",
+  video: "1AH2a6boFj-6TVYMNoMbg2260bbEWbRNW"
+},
                   {
-                    id: "lecture-3",
-                    name: "Lecture 3"
-                  }
+  id: "lecture-3",
+  name: "Lecture 3",
+  video: "1aRqvX0yaQUVOGKC92PBzEeV7g1B0ThdE"
+}
                 ]
               },
 
