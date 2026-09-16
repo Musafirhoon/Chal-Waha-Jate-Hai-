@@ -1,1 +1,330 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 7px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 11px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+      font-size: 15px;
+    }
+
+    .add-btn {
+      background: #222;
+      color: white;
+      width: 100%;
+    }
+
+    .logout-btn {
+      background: #ddd;
+    }
+
+    #message {
+      font-weight: bold;
+    }
+
+    .lecture {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="box">
+    <h1>🔐 Admin Dashboard</h1>
+
+    <p>Courses / Lectures manage karo.</p>
+
+    <button class="logout-btn" onclick="logoutAdmin()">
+      Logout
+    </button>
+  </div>
+
+
+  <div class="box">
+
+    <h2>➕ Add Lecture</h2>
+
+    <input id="name" placeholder="Lecture Name">
+
+    <textarea id="description"
+      placeholder="Lecture Description"></textarea>
+
+    <input id="lecture_id"
+      placeholder="Lecture ID (example: lecture-4)">
+
+    <input id="batch_id"
+      placeholder="Batch ID (example: batch-1)">
+
+    <input id="subject_id"
+      placeholder="Subject ID (example: gs)">
+
+    <input id="chapter_id"
+      placeholder="Chapter ID (example: chapter-1)">
+
+    <input id="video"
+      placeholder="Google Drive Video ID">
+
+    <button class="add-btn" onclick="addLecture()">
+      Add Lecture
+    </button>
+
+    <p id="message"></p>
+
+  </div>
+
+
+  <div class="box">
+
+    <h2>📚 Existing Lectures</h2>
+
+    <div id="lectureList">
+      Loading...
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  async function checkAdmin() {
+
+    const { data } =
+      await supabaseClient.auth.getUser();
+
+    if (!data.user) {
+
+      window.location.href = "admin.html";
+
+    }
+
+  }
+
+
+  async function addLecture() {
+
+    const message =
+      document.getElementById("message");
+
+    const lecture = {
+
+      name:
+        document.getElementById("name").value.trim(),
+
+      description:
+        document.getElementById("description").value.trim(),
+
+      lecture_id:
+        document.getElementById("lecture_id").value.trim(),
+
+      batch_id:
+        document.getElementById("batch_id").value.trim(),
+
+      subject_id:
+        document.getElementById("subject_id").value.trim(),
+
+      chapter_id:
+        document.getElementById("chapter_id").value.trim(),
+
+      video:
+        document.getElementById("video").value.trim()
+
+    };
+
+
+    if (
+      !lecture.name ||
+      !lecture.lecture_id ||
+      !lecture.batch_id ||
+      !lecture.subject_id ||
+      !lecture.chapter_id ||
+      !lecture.video
+    ) {
+
+      message.textContent =
+        "⚠️ Required fields fill karo.";
+
+      return;
+
+    }
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("courses")
+        .insert([lecture])
+        .select();
+
+
+    if (error) {
+
+      console.error(error);
+
+      message.textContent =
+        "❌ Error: " + error.message;
+
+      return;
+
+    }
+
+
+    message.textContent =
+      "✅ Lecture successfully added!";
+
+    clearForm();
+
+    loadLectures();
+
+  }
+
+
+  function clearForm() {
+
+    document.getElementById("name").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("lecture_id").value = "";
+    document.getElementById("video").value = "";
+
+  }
+
+
+  async function loadLectures() {
+
+    const { data, error } =
+      await supabaseClient
+        .from("courses")
+        .select(
+          "name, lecture_id, batch_id, subject_id, chapter_id"
+        )
+        .order("created_at", {
+          ascending: false
+        });
+
+
+    const list =
+      document.getElementById("lectureList");
+
+
+    if (error) {
+
+      list.innerHTML =
+        "❌ " + error.message;
+
+      return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        "No lectures found.";
+
+      return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    data.forEach(lecture => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "lecture";
+
+      div.innerHTML = `
+        <strong>${lecture.name}</strong>
+        <br>
+        Lecture: ${lecture.lecture_id}
+        <br>
+        Batch: ${lecture.batch_id}
+        <br>
+        Subject: ${lecture.subject_id}
+        <br>
+        Chapter: ${lecture.chapter_id}
+      `;
+
+      list.appendChild(div);
+
+    });
+
+  }
+
+
+  async function logoutAdmin() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "admin.html";
+
+  }
+
+
+  checkAdmin();
+  loadLectures();
+
+</script>
+
+</body>
+</html>
