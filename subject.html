@@ -107,35 +107,35 @@
 
   if (selectedSubject) {
 
-    subjectTitle.textContent = selectedSubject.name;
+  subjectTitle.textContent = selectedSubject.name;
 
-    if (selectedSubject.chapters) {
+  if (selectedSubject.chapters) {
 
-      selectedSubject.chapters.forEach(chapter => {
+    selectedSubject.chapters.forEach(chapter => {
 
-        const card = document.createElement("div");
+      const card = document.createElement("div");
 
-        card.className = "card";
+      card.className = "card";
 
-        card.innerHTML = `
-          <h3>📚 ${chapter.name}</h3>
-        `;
-
-        chapterList.appendChild(card);
-
-      });
-
-    } else {
-
-      chapterList.innerHTML = `
-        <div class="card">
-          <h3>Coming Soon</h3>
-        </div>
+      card.innerHTML = `
+        <h3>${chapter.name}</h3>
       `;
 
-    }
+      chapterList.appendChild(card);
+
+    });
+
+  } else {
+
+    chapterList.innerHTML = `
+      <div class="card">
+        <h3>Coming Soon</h3>
+      </div>
+    `;
 
   }
+
+}
 
 </script>
 
