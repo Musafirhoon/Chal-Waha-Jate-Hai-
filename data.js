@@ -22,9 +22,24 @@ const batches = [
 
   chapters: [
     {
-      id: "chapter-1",
-      name: "Chapter 1"
+  id: "chapter-1",
+  name: "Chapter 1",
+
+  lectures: [
+    {
+      id: "lecture-1",
+      name: "Lecture 1"
     },
+    {
+      id: "lecture-2",
+      name: "Lecture 2"
+    },
+    {
+      id: "lecture-3",
+      name: "Lecture 3"
+    }
+  ]
+},
     {
       id: "chapter-2",
       name: "Chapter 2"
