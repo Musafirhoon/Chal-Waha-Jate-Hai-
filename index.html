@@ -298,10 +298,10 @@ function showEnglish() {
         window.location.href = "english.html";
       };
     } else if (subject.id === "gs") {
-      card.onclick = function() {
-        showGS();
-      };
-    }
+  card.onclick = function() {
+    window.location.href = "subject.html?subject=gs";
+  };
+}
 
     subjectList.appendChild(card);
   });
