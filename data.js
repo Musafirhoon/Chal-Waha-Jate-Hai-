@@ -17,9 +17,24 @@ const batches = [
 
         chapters: [
           {
-            id: "ancient-history",
-            name: "🏛️ Ancient History"
-          },
+  id: "ancient-history",
+  name: "🏛️ Ancient History",
+
+  chapters: [
+    {
+      id: "chapter-1",
+      name: "Chapter 1"
+    },
+    {
+      id: "chapter-2",
+      name: "Chapter 2"
+    },
+    {
+      id: "chapter-3",
+      name: "Chapter 3"
+    }
+  ]
+},
           {
             id: "medieval-history",
             name: "🏰 Medieval History"
