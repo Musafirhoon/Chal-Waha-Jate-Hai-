@@ -117,35 +117,42 @@
 
   if (selectedChapter) {
 
-    chapterTitle.textContent = selectedChapter.name;
+  chapterTitle.textContent = selectedChapter.name;
 
-    if (selectedChapter.lectures) {
+  if (selectedChapter.lectures) {
 
-      selectedChapter.lectures.forEach(lecture => {
+    selectedChapter.lectures.forEach(lecture => {
 
-        const card = document.createElement("div");
+      const card = document.createElement("div");
 
-        card.className = "card";
+      card.className = "card";
 
-        card.innerHTML = `
-          <h3>▶️ ${lecture.name}</h3>
-        `;
-
-        lectureList.appendChild(card);
-
-      });
-
-    } else {
-
-      lectureList.innerHTML = `
-        <div class="card">
-          <h3>Lectures Coming Soon</h3>
-        </div>
+      card.innerHTML = `
+        <h3>▶️ ${lecture.name}</h3>
       `;
 
-    }
+      card.onclick = function() {
+        window.location.href =
+          "lecture.html?subject=" + subjectId +
+          "&chapter=" + chapterId +
+          "&lecture=" + lecture.id;
+      };
+
+      lectureList.appendChild(card);
+
+    });
+
+  } else {
+
+    lectureList.innerHTML = `
+      <div class="card">
+        <h3>Lectures Coming Soon</h3>
+      </div>
+    `;
 
   }
+
+}
 
 </script>
 
