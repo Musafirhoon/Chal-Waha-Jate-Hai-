@@ -384,8 +384,9 @@ function showEnglish() {
   document.getElementById("gs").classList.remove("hidden");
 }
   function showSubjects() {
-    hideAll();
-    document.getElementById("subjects").classList.remove("hidden");
+  hideAll();
+  document.getElementById("subjects").classList.remove("hidden");
+  history.replaceState(null, "", "#subjects");
   }
 
   function showChapters() {
@@ -402,7 +403,9 @@ function showEnglish() {
     hideAll();
     document.getElementById("video").classList.remove("hidden");
   }
-
+if (window.location.hash === "#subjects") {
+  showSubjects();
+}
 </script>
 
 </body>
