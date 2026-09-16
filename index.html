@@ -276,115 +276,112 @@
     hideAll();
     document.getElementById("home").classList.remove("hidden");
   }
-function showEnglish() {
-  hideAll();
-  document.getElementById("english").classList.remove("hidden");
-}
-  function showGS() {
-  hideAll();
-  document.getElementById("gs").classList.remove("hidden");
-}
-  function loadSubjects() {
-  const subjectList = document.getElementById("subject-list");
-    async function loadSubjectsFromSupabase() {
 
-  const { data, error } = await supabaseClient
-    .from("courses")
-    .select("subject_id, name, batch_id")
-    .eq("batch_id", "batch-1");
+  async function loadSubjects() {
 
-  if (error) {
-    console.error("Supabase error:", error);
-    return;
-  }
+    const subjectList =
+      document.getElementById("subject-list");
 
-  if (!data || data.length === 0) {
-    console.log("Supabase mein subjects nahi mile.");
-    return;
-  }
+    const { data, error } =
+      await supabaseClient
+        .from("courses")
+        .select("subject_id, name, batch_id")
+        .eq("batch_id", "batch-1");
 
-  const uniqueSubjects = [];
-  const seen = new Set();
-
-  data.forEach(row => {
-    if (!seen.has(row.subject_id)) {
-      seen.add(row.subject_id);
-      uniqueSubjects.push(row);
+    if (error) {
+      console.error("Supabase error:", error);
+      subjectList.innerHTML =
+        "<p>Subjects load nahi ho paaye.</p>";
+      return;
     }
-  });
 
-  subjectList.innerHTML = "";
+    if (!data || data.length === 0) {
+      subjectList.innerHTML =
+        "<p>Abhi koi subject available nahi hai.</p>";
+      return;
+    }
 
-  uniqueSubjects.forEach(subject => {
+    const uniqueSubjects = [];
+    const seen = new Set();
 
-    const card = document.createElement("div");
+    data.forEach(row => {
 
-    card.className = "card";
+      if (!seen.has(row.subject_id)) {
+        seen.add(row.subject_id);
+        uniqueSubjects.push(row);
+      }
 
-    card.innerHTML = `
-      <h3>${subject.name}</h3>
-    `;
+    });
 
-    card.onclick = function() {
-      window.location.href =
-        "subject.html?subject=" + subject.subject_id;
-    };
+    subjectList.innerHTML = "";
 
-    subjectList.appendChild(card);
+    uniqueSubjects.forEach(subject => {
 
-  });
-}
+      const card =
+        document.createElement("div");
 
-loadSubjectsFromSupabase();
+      card.className = "card";
 
-  batches[0].subjects.forEach(subject => {
-    const card = document.createElement("div");
-    card.className = "card";
+      card.innerHTML = `
+        <h3>${subject.name}</h3>
+      `;
 
-    card.innerHTML = `
-      <h3>${subject.name}</h3>
-    `;
-
-    if (subject.id === "english") {
       card.onclick = function() {
-        window.location.href = "english.html";
+
+        window.location.href =
+          "subject.html?subject=" +
+          subject.subject_id;
+
       };
-    } else if (subject.id === "gs") {
-  card.onclick = function() {
-    window.location.href = "subject.html?subject=gs";
-  };
-}
 
-    subjectList.appendChild(card);
-  });
-}
+      subjectList.appendChild(card);
 
-document.addEventListener("DOMContentLoaded", function() {
-  loadSubjects();
-});
-  function showSubjects() {
-  hideAll();
-  document.getElementById("subjects").classList.remove("hidden");
-  history.replaceState(null, "", "#subjects");
+    });
+
   }
+
+
+  function showSubjects() {
+
+    hideAll();
+
+    document
+      .getElementById("subjects")
+      .classList.remove("hidden");
+
+    history.replaceState(null, "", "#subjects");
+
+    loadSubjects();
+
+  }
+
 
   function showChapters() {
     hideAll();
     document.getElementById("chapters").classList.remove("hidden");
   }
 
+
   function showLectures() {
     hideAll();
     document.getElementById("lectures").classList.remove("hidden");
   }
 
+
   function openLecture() {
     hideAll();
     document.getElementById("video").classList.remove("hidden");
   }
-if (window.location.hash === "#subjects") {
-  showSubjects();
-}
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+
+    if (window.location.hash === "#subjects") {
+      showSubjects();
+    }
+
+  });
+
 </script>
 
 </body>
