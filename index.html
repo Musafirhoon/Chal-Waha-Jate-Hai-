@@ -309,7 +309,9 @@ function showEnglish() {
   });
 }
 
-loadSubjects();
+document.addEventListener("DOMContentLoaded", function() {
+  loadSubjects();
+});
   function showSubjects() {
   hideAll();
   document.getElementById("subjects").classList.remove("hidden");
