@@ -159,7 +159,7 @@
   <section id="home">
     <h2 class="page-title">📚 Available Batches</h2>
 
-    <div class="card" onclick="alert('KILO CLICK OK'); showSubjects()">
+    onclick="showSubjects()"
   <div class="batch-poster">
     Poster yahan lagega
   </div>
@@ -267,123 +267,130 @@
 </script>
 <script>
 
-  function hideAll() {
-    document.getElementById("home").classList.add("hidden");
-    document.getElementById("subjects").classList.add("hidden");
-    document.getElementById("chapters").classList.add("hidden");
-    document.getElementById("lectures").classList.add("hidden");
-    document.getElementById("video").classList.add("hidden");
+function hideAll() {
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("subjects").classList.add("hidden");
+  document.getElementById("chapters").classList.add("hidden");
+  document.getElementById("lectures").classList.add("hidden");
+  document.getElementById("video").classList.add("hidden");
+}
+
+function goHome() {
+  hideAll();
+  document.getElementById("home").classList.remove("hidden");
+}
+
+async function loadSubjects() {
+
+  const subjectList = document.getElementById("subject-list");
+
+  subjectList.innerHTML = "<p>Subjects load ho rahe hain...</p>";
+
+  const { data, error } = await supabaseClient
+    .from("courses")
+    .select("subject_id, name, batch_id")
+    .eq("batch_id", "batch-1");
+
+  if (error) {
+    console.error("Supabase error:", error);
+
+    subjectList.innerHTML =
+      "<p>❌ Subjects load nahi ho paaye.</p>";
+
+    return;
   }
 
-  function goHome() {
-    hideAll();
-    document.getElementById("home").classList.remove("hidden");
+  if (!data || data.length === 0) {
+
+    subjectList.innerHTML =
+      "<p>❌ Is batch mein abhi koi subject nahi mila.</p>";
+
+    return;
   }
 
-  async function loadSubjects() {
+  const uniqueSubjects = [];
+  const seen = new Set();
 
-    const subjectList =
-      document.getElementById("subject-list");
+  data.forEach(function(row) {
 
-    const { data, error } =
-      await supabaseClient
-        .from("courses")
-        .select("subject_id, name, batch_id")
-        .eq("batch_id", "batch-1");
+    if (!seen.has(row.subject_id)) {
 
-    if (error) {
-      console.error("Supabase error:", error);
-      subjectList.innerHTML =
-        "<p>Subjects load nahi ho paaye.</p>";
-      return;
-    }
+      seen.add(row.subject_id);
+      uniqueSubjects.push(row);
 
-    if (!data || data.length === 0) {
-      subjectList.innerHTML =
-        "<p>Abhi koi subject available nahi hai.</p>";
-      return;
-    }
-
-    const uniqueSubjects = [];
-    const seen = new Set();
-
-    data.forEach(row => {
-
-      if (!seen.has(row.subject_id)) {
-        seen.add(row.subject_id);
-        uniqueSubjects.push(row);
-      }
-
-    });
-
-    subjectList.innerHTML = "";
-
-    uniqueSubjects.forEach(subject => {
-
-      const card =
-        document.createElement("div");
-
-      card.className = "card";
-
-      card.innerHTML = `
-        <h3>${subject.name}</h3>
-      `;
-
-      card.onclick = function() {
-
-        window.location.href =
-          "subject.html?subject=" +
-          subject.subject_id;
-
-      };
-
-      subjectList.appendChild(card);
-
-    });
-
-  }
-
-
-  function showSubjects() {
-
-    hideAll();
-
-    document
-      .getElementById("subjects")
-      .classList.remove("hidden");
-
-    history.replaceState(null, "", "#subjects");
-
-    loadSubjects();
-
-  }
-
-
-  function showChapters() {
-    hideAll();
-    document.getElementById("chapters").classList.remove("hidden");
-  }
-
-
-  function showLectures() {
-    hideAll();
-    document.getElementById("lectures").classList.remove("hidden");
-  }
-
-
-  function openLecture() {
-    hideAll();
-    document.getElementById("video").classList.remove("hidden");
-  }
-
-
-  document.addEventListener("DOMContentLoaded", function() {
-
-    if (window.location.hash === "#subjects") {
-      showSubjects();
     }
 
   });
+
+  subjectList.innerHTML = "";
+
+  uniqueSubjects.forEach(function(subject) {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${subject.name}</h3>
+    `;
+
+    card.onclick = function() {
+
+      window.location.href =
+        "subject.html?subject=" +
+        subject.subject_id;
+
+    };
+
+    subjectList.appendChild(card);
+
+  });
+
+}
+
+function showSubjects() {
+
+  hideAll();
+
+  document
+    .getElementById("subjects")
+    .classList.remove("hidden");
+
+  history.replaceState(null, "", "#subjects");
+
+  loadSubjects();
+
+}
+
+function showChapters() {
+
+  hideAll();
+
+  document
+    .getElementById("chapters")
+    .classList.remove("hidden");
+
+}
+
+function showLectures() {
+
+  hideAll();
+
+  document
+    .getElementById("lectures")
+    .classList.remove("hidden");
+
+}
+
+function openLecture() {
+
+  hideAll();
+
+  document
+    .getElementById("video")
+    .classList.remove("hidden");
+
+}
 
 </script>
 
