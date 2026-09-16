@@ -288,26 +288,31 @@
 
     data.forEach(lecture => {
 
-      const div =
-        document.createElement("div");
+  const div = document.createElement("div");
 
-      div.className = "lecture";
+  div.className = "lecture";
 
-      div.innerHTML = `
-        <strong>${lecture.name}</strong>
-        <br>
-        Lecture: ${lecture.lecture_id}
-        <br>
-        Batch: ${lecture.batch_id}
-        <br>
-        Subject: ${lecture.subject_id}
-        <br>
-        Chapter: ${lecture.chapter_id}
-      `;
+  div.innerHTML = `
+    <strong>${lecture.name}</strong>
+    <br>
+    Lecture: ${lecture.lecture_id}
+    <br>
+    Batch: ${lecture.batch_id}
+    <br>
+    Subject: ${lecture.subject_id}
+    <br>
+    Chapter: ${lecture.chapter_id}
 
-      list.appendChild(div);
+    <br><br>
 
-    });
+    <button onclick="deleteLecture('${lecture.lecture_id}')">
+      🗑️ Delete
+    </button>
+  `;
+
+  list.appendChild(div);
+
+});
 
   }
 
