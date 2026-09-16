@@ -69,6 +69,7 @@
 <body>
 
   <div class="login-box">
+
     <h1>🔐 Admin Login</h1>
 
     <input
@@ -88,41 +89,78 @@
     </button>
 
     <p id="message"></p>
+
   </div>
 
+
   <script>
+
     async function loginAdmin() {
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+      const email =
+        document.getElementById("email").value.trim();
 
-      const message = document.getElementById("message");
+      const password =
+        document.getElementById("password").value;
+
+      const message =
+        document.getElementById("message");
+
 
       if (!email || !password) {
-        message.textContent = "Email aur password enter karo.";
+
+        message.textContent =
+          "Email aur password enter karo.";
+
         return;
+
       }
 
-      message.textContent = "Logging in...";
+
+      message.textContent =
+        "Logging in...";
+
 
       const { data, error } =
         await supabaseClient.auth.signInWithPassword({
+
           email: email,
           password: password
+
         });
 
+
       if (error) {
+
         console.error(error);
-        message.textContent = "Login failed: " + error.message;
+
+        message.textContent =
+          "Login failed: " + error.message;
+
         return;
+
       }
 
-      message.textContent = "Login successful! ✅";
 
-      console.log("Admin logged in:", data.user);
+      message.textContent =
+        "Login successful! ✅";
 
-      // Abhi sirf login test kar rahe hain.
+
+      console.log(
+        "Admin logged in:",
+        data.user
+      );
+
+
+      setTimeout(function() {
+
+        window.location.href =
+          "admin-dashboard.html";
+
+      }, 500);
+
     }
+
   </script>
 
 </body>
