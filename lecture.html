@@ -125,6 +125,38 @@
   const lectureTitle = document.getElementById("lecture-title");
   const lectureName = document.getElementById("lecture-name");
   const videoPlayer = document.getElementById("video-player");
+  async function loadLectureFromSupabase() {
+
+  const { data, error } = await supabaseClient
+    .from("courses")
+    .select("name, description, lecture_id, subject_id, chapter_id, video")
+    .eq("subject_id", subjectId)
+    .eq("chapter_id", chapterId)
+    .eq("lecture_id", lectureId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Supabase error:", error);
+    return;
+  }
+
+  if (!data) {
+    console.log("Supabase mein lecture nahi mila.");
+    return;
+  }
+
+  lectureTitle.textContent = "🎥 " + data.name;
+  lectureName.textContent = data.name;
+
+  videoPlayer.src =
+    "https://drive.google.com/file/d/" +
+    data.video.trim() +
+    "/preview";
+
+  console.log("Lecture loaded from Supabase:", data.name);
+}
+
+loadLectureFromSupabase();
 
   let selectedLecture = null;
 
