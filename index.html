@@ -286,6 +286,56 @@ function showEnglish() {
 }
   function loadSubjects() {
   const subjectList = document.getElementById("subject-list");
+    async function loadSubjectsFromSupabase() {
+
+  const { data, error } = await supabaseClient
+    .from("courses")
+    .select("subject_id, name, batch_id")
+    .eq("batch_id", "batch-1");
+
+  if (error) {
+    console.error("Supabase error:", error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    console.log("Supabase mein subjects nahi mile.");
+    return;
+  }
+
+  const uniqueSubjects = [];
+  const seen = new Set();
+
+  data.forEach(row => {
+    if (!seen.has(row.subject_id)) {
+      seen.add(row.subject_id);
+      uniqueSubjects.push(row);
+    }
+  });
+
+  subjectList.innerHTML = "";
+
+  uniqueSubjects.forEach(subject => {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${subject.name}</h3>
+    `;
+
+    card.onclick = function() {
+      window.location.href =
+        "subject.html?subject=" + subject.subject_id;
+    };
+
+    subjectList.appendChild(card);
+
+  });
+}
+
+loadSubjectsFromSupabase();
 
   batches[0].subjects.forEach(subject => {
     const card = document.createElement("div");
