@@ -7,107 +7,127 @@
   <title>Chal Waha Jate Hai</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+  }
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 22px 18px;
-      text-align: center;
-    }
+  header {
+    background: #111827;
+    color: white;
+    padding: 28px 18px;
+    text-align: center;
+  }
 
+  header h1 {
+    font-size: 26px;
+    margin-bottom: 7px;
+  }
+
+  header p {
+    color: #cbd5e1;
+    font-size: 14px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    padding: 22px 16px 40px;
+  }
+
+  .page-title {
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 19px;
+    margin-bottom: 13px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+  }
+
+  .card:active {
+    transform: scale(0.98);
+  }
+
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: 7px;
+  }
+
+  .card p {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #2563eb;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .video-box {
+    width: 100%;
+    background: #000;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .video-box iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+  }
+
+  .lecture-info {
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .lecture-info h2 {
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+
+  .lecture-info p {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
     header h1 {
-      font-size: 25px;
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: #d1d5db;
-      font-size: 14px;
+      font-size: 23px;
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px 15px;
-    }
-
-    .page-title {
-      font-size: 22px;
-      margin-bottom: 15px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .card:active {
-      transform: scale(0.98);
-    }
-
-    .card h3 {
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .card p {
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    .back {
-      display: inline-block;
-      margin-bottom: 18px;
-      color: #2563eb;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .hidden {
-      display: none;
+      padding: 18px 13px 30px;
     }
 
     .video-box {
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 18px;
-    }
-
-    .video-box iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-    }
-
-    .lecture-info {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-    }
-
-    .lecture-info h2 {
-      margin-bottom: 8px;
-    }
-
-    .lecture-info p {
-      color: #6b7280;
+      border-radius: 10px;
     }
   </style>
 </head>
