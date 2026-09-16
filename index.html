@@ -3,18 +3,272 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Chal Waha Jate Hai</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: #d1d5db;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px 15px;
+    }
+
+    .page-title {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #2563eb;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .video-box {
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .video-box iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    .lecture-info {
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+    }
+
+    .lecture-info h2 {
+      margin-bottom: 8px;
+    }
+
+    .lecture-info p {
+      color: #6b7280;
+    }
+  </style>
 </head>
 
 <body>
 
+<header>
   <h1>Chal Waha Jate Hai</h1>
   <p>Online Learning Platform</p>
+</header>
 
-  <h2>Available Batches</h2>
+<div class="container">
 
-  <button>Batch 1</button>
-  <button>Batch 2</button>
+  <!-- HOME -->
+  <section id="home">
+    <h2 class="page-title">📚 Available Batches</h2>
+
+    <div class="card" onclick="showSubjects()">
+      <h3>🎓 Batch 1</h3>
+      <p>Class 10 Complete Course</p>
+    </div>
+
+    <div class="card">
+      <h3>🎓 Batch 2</h3>
+      <p>Coming Soon</p>
+    </div>
+  </section>
+
+
+  <!-- SUBJECTS -->
+  <section id="subjects" class="hidden">
+
+    <div class="back" onclick="goHome()">← Back</div>
+
+    <h2 class="page-title">📖 Select Subject</h2>
+
+    <div class="card" onclick="showChapters()">
+      <h3>⚡ Physics</h3>
+      <p>Physics lectures</p>
+    </div>
+
+    <div class="card">
+      <h3>🧪 Chemistry</h3>
+      <p>Coming Soon</p>
+    </div>
+
+    <div class="card">
+      <h3>🧬 Biology</h3>
+      <p>Coming Soon</p>
+    </div>
+
+  </section>
+
+
+  <!-- CHAPTERS -->
+  <section id="chapters" class="hidden">
+
+    <div class="back" onclick="showSubjects()">← Back</div>
+
+    <h2 class="page-title">📑 Select Chapter</h2>
+
+    <div class="card" onclick="showLectures()">
+      <h3>Chapter 1 — Light</h3>
+      <p>3 Lectures</p>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 2 — Electricity</h3>
+      <p>Coming Soon</p>
+    </div>
+
+  </section>
+
+
+  <!-- LECTURES -->
+  <section id="lectures" class="hidden">
+
+    <div class="back" onclick="showChapters()">← Back</div>
+
+    <h2 class="page-title">🎥 Select Lecture</h2>
+
+    <div class="card" onclick="openLecture()">
+      <h3>▶️ Lecture 1</h3>
+      <p>Introduction</p>
+    </div>
+
+    <div class="card" onclick="openLecture()">
+      <h3>▶️ Lecture 2</h3>
+      <p>Basic Concepts</p>
+    </div>
+
+    <div class="card" onclick="openLecture()">
+      <h3>▶️ Lecture 3</h3>
+      <p>Important Questions</p>
+    </div>
+
+  </section>
+
+
+  <!-- VIDEO -->
+  <section id="video" class="hidden">
+
+    <div class="back" onclick="showLectures()">← Back to Lectures</div>
+
+    <div class="video-box">
+
+      <!-- बाद में यहाँ Google Drive video का link डालेंगे -->
+
+      <iframe
+        src="https://drive.google.com/file/d/GOOGLE_DRIVE_FILE_ID/preview"
+        allow="autoplay">
+      </iframe>
+
+    </div>
+
+    <div class="lecture-info">
+      <h2>Lecture 1 — Introduction</h2>
+      <p>इस lecture की video ऊपर player में चलेगी।</p>
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+  function hideAll() {
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("subjects").classList.add("hidden");
+    document.getElementById("chapters").classList.add("hidden");
+    document.getElementById("lectures").classList.add("hidden");
+    document.getElementById("video").classList.add("hidden");
+  }
+
+  function goHome() {
+    hideAll();
+    document.getElementById("home").classList.remove("hidden");
+  }
+
+  function showSubjects() {
+    hideAll();
+    document.getElementById("subjects").classList.remove("hidden");
+  }
+
+  function showChapters() {
+    hideAll();
+    document.getElementById("chapters").classList.remove("hidden");
+  }
+
+  function showLectures() {
+    hideAll();
+    document.getElementById("lectures").classList.remove("hidden");
+  }
+
+  function openLecture() {
+    hideAll();
+    document.getElementById("video").classList.remove("hidden");
+  }
+
+</script>
 
 </body>
 </html>
