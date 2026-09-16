@@ -121,7 +121,10 @@
         <h3>${chapter.name}</h3>
       `;
 
-      chapterList.appendChild(card);
+      card.onclick = function() {
+  window.location.href =
+    "chapter.html?subject=" + subjectId + "&chapter=" + chapter.id;
+};
 
     });
 
