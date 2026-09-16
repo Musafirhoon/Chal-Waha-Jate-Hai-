@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Subject</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 28px 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 22px 16px 40px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    .page-title {
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 19px;
+      margin-bottom: 13px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    }
+
+    .card h3 {
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Chal Waha Jate Hai</h1>
+</header>
+
+<div class="container">
+
+  <a class="back" href="index.html#subjects">← Back</a>
+
+  <h2 class="page-title" id="subject-title">Subject</h2>
+
+  <div id="chapter-list"></div>
+
+</div>
+
+<script src="data.js"></script>
+
+<script>
+
+  const params = new URLSearchParams(window.location.search);
+
+  const subjectId = params.get("subject");
+
+  const subjectTitle = document.getElementById("subject-title");
+  const chapterList = document.getElementById("chapter-list");
+
+  let selectedSubject = null;
+
+  batches.forEach(batch => {
+
+    batch.subjects.forEach(subject => {
+
+      if (subject.id === subjectId) {
+        selectedSubject = subject;
+      }
+
+    });
+
+  });
+
+  if (selectedSubject) {
+
+    subjectTitle.textContent = selectedSubject.name;
+
+    if (selectedSubject.chapters) {
+
+      selectedSubject.chapters.forEach(chapter => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>📚 ${chapter.name}</h3>
+        `;
+
+        chapterList.appendChild(card);
+
+      });
+
+    } else {
+
+      chapterList.innerHTML = `
+        <div class="card">
+          <h3>Coming Soon</h3>
+        </div>
+      `;
+
+    }
+
+  }
+
+</script>
+
+</body>
+</html>
