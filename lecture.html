@@ -95,8 +95,8 @@
   <div class="video-box">
 
     <iframe
-      id="3m8q2k"
-src=""
+      id="video-player"
+      src=""
       allow="autoplay"
       allowfullscreen>
     </iframe>
@@ -122,6 +122,7 @@ src=""
 
   const lectureTitle = document.getElementById("lecture-title");
   const lectureName = document.getElementById("lecture-name");
+  const videoPlayer = document.getElementById("video-player");
 
   let selectedLecture = null;
 
@@ -131,14 +132,25 @@ src=""
 
       if (subject.id === subjectId && subject.chapters) {
 
-        subject.chapters.forEach(chapter => {
+        subject.chapters.forEach(subjectChapter => {
 
-          if (chapter.id === chapterId && chapter.lectures) {
+          if (
+            subjectChapter.id === chapterId &&
+            subjectChapter.chapters
+          ) {
 
-            chapter.lectures.forEach(lecture => {
+            subjectChapter.chapters.forEach(chapter => {
 
-              if (lecture.id === lectureId) {
-                selectedLecture = lecture;
+              if (chapter.lectures) {
+
+                chapter.lectures.forEach(lecture => {
+
+                  if (lecture.id === lectureId) {
+                    selectedLecture = lecture;
+                  }
+
+                });
+
               }
 
             });
@@ -156,13 +168,21 @@ src=""
   if (selectedLecture) {
 
     lectureTitle.textContent = "🎥 " + selectedLecture.name;
-    lectureName.textContent = selectedLecture.name; 
-    
-document.querySelector(".video-box iframe").src =
-  "https://drive.google.com/file/d/" + selectedLecture.video + "/preview";
+    lectureName.textContent = selectedLecture.name;
+
+    videoPlayer.src =
+      "https://drive.google.com/file/d/" +
+      selectedLecture.video +
+      "/preview";
+
+  } else {
+
+    lectureTitle.textContent = "Lecture Not Found";
+    lectureName.textContent = "Lecture Not Found";
+
   }
 
 </script>
 
 </body>
-</html>
+</html> 
