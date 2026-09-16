@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chapter</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 28px 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 22px 16px 40px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #2563eb;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .page-title {
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 19px;
+      margin-bottom: 13px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    }
+
+    .card h3 {
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Chal Waha Jate Hai</h1>
+</header>
+
+<div class="container">
+
+  <a class="back" href="javascript:history.back()">← Back</a>
+
+  <h2 class="page-title" id="chapter-title">Chapter</h2>
+
+  <div id="lecture-list"></div>
+
+</div>
+
+<script src="data.js"></script>
+
+<script>
+
+  const params = new URLSearchParams(window.location.search);
+
+  const subjectId = params.get("subject");
+  const chapterId = params.get("chapter");
+
+  const chapterTitle = document.getElementById("chapter-title");
+  const lectureList = document.getElementById("lecture-list");
+
+  let selectedChapter = null;
+
+  batches.forEach(batch => {
+
+    batch.subjects.forEach(subject => {
+
+      if (subject.id === subjectId && subject.chapters) {
+
+        subject.chapters.forEach(chapter => {
+
+          if (chapter.id === chapterId) {
+            selectedChapter = chapter;
+          }
+
+        });
+
+      }
+
+    });
+
+  });
+
+  if (selectedChapter) {
+
+    chapterTitle.textContent = selectedChapter.name;
+
+    if (selectedChapter.lectures) {
+
+      selectedChapter.lectures.forEach(lecture => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>▶️ ${lecture.name}</h3>
+        `;
+
+        lectureList.appendChild(card);
+
+      });
+
+    } else {
+
+      lectureList.innerHTML = `
+        <div class="card">
+          <h3>Lectures Coming Soon</h3>
+        </div>
+      `;
+
+    }
+
+  }
+
+</script>
+
+</body>
+</html>
