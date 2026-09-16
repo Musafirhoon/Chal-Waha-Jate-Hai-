@@ -284,6 +284,32 @@ function showEnglish() {
   hideAll();
   document.getElementById("gs").classList.remove("hidden");
 }
+  function loadSubjects() {
+  const subjectList = document.getElementById("subject-list");
+
+  batches[0].subjects.forEach(subject => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${subject.name}</h3>
+    `;
+
+    if (subject.id === "english") {
+      card.onclick = function() {
+        window.location.href = "english.html";
+      };
+    } else if (subject.id === "gs") {
+      card.onclick = function() {
+        showGS();
+      };
+    }
+
+    subjectList.appendChild(card);
+  });
+}
+
+loadSubjects();
   function showSubjects() {
   hideAll();
   document.getElementById("subjects").classList.remove("hidden");
