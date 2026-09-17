@@ -91,60 +91,7 @@
 
   const subjectTitle = document.getElementById("subject-title");
   const chapterList = document.getElementById("chapter-list");
-  async function loadChaptersFromSupabase() {
-
-  const { data, error } = await supabaseClient
-    .from("courses")
-    .select("chapter_id, name, subject_id")
-    .eq("subject_id", subjectId)
-    .order("chapter_id", { ascending: true });
-
-  if (error) {
-    console.error("Supabase error:", error);
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    console.log("Supabase mein chapters nahi mile.");
-    return;
-  }
-
-  const uniqueChapters = [];
-  const seen = new Set();
-
-  data.forEach(row => {
-    if (!seen.has(row.chapter_id)) {
-      seen.add(row.chapter_id);
-      uniqueChapters.push(row);
-    }
-  });
-
-  chapterList.innerHTML = "";
-
-  uniqueChapters.forEach(chapter => {
-
-    const card = document.createElement("div");
-
-    card.className = "card";
-
-    card.innerHTML = `
-      <h3>${chapter.name}</h3>
-    `;
-
-    card.onclick = function() {
-      window.location.href =
-        "chapter.html?subject=" + subjectId +
-        "&chapter=ancient-history&subchapter=" + chapter.chapter_id;
-    };
-
-    chapterList.appendChild(card);
-
-  });
-
-}
-
-loadChaptersFromSupabase();
-
+  
   let selectedSubject = null;
 
   batches.forEach(batch => {
