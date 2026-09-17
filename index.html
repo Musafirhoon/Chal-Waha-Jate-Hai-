@@ -451,13 +451,7 @@ async function loadSubjects(batchId) {
         .classList.remove("hidden");
 
 
-      history.pushState(
-  null,
-  "",
-  "?batch=" +
-  encodeURIComponent(batchId) +
-  "#subjects"
-);
+      
 
 
       loadSubjects(batchId);
