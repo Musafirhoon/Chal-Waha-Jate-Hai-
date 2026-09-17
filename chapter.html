@@ -181,6 +181,7 @@ async function loadLecturesFromSupabase() {
 }
   
   if (selectedItem) {
+if (selectedItem && !subChapterId) {
 
   chapterTitle.textContent = selectedItem.name;
 
@@ -211,7 +212,7 @@ async function loadLecturesFromSupabase() {
 
   }
 
-  }
+}
 
     else if (selectedItem.lectures) {
 
