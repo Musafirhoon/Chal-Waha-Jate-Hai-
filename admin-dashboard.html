@@ -242,20 +242,16 @@ function loadTopics() {
 
 
     if (
-      !lecture.name ||
-      !lecture.topic_id ||
-      !lecture.batch_id ||
-      !lecture.subject_id ||
-      !lecture.chapter_id ||
-      !lecture.video
-    ) {
-
-      message.textContent =
-        "⚠️ Required fields fill karo.";
-
-      return;
-
-    }
+  !lecture.name ||
+  !lecture.lecture_id ||
+  !lecture.batch_id ||
+  !lecture.subject_id ||
+  !lecture.topic_id ||
+  !lecture.video
+) {
+  message.textContent = "⚠️ Required fields fill karo.";
+  return;
+}
 
 
     const { error } =
@@ -290,7 +286,7 @@ function loadTopics() {
 
     document.getElementById("name").value = "";
     document.getElementById("description").value = "";
-    document.getElementById("lecture_id").value = "";
+    document.getElementById(("topic_id").value = "";
     document.getElementById("video").value = "";
 
   }
