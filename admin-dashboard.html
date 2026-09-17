@@ -247,8 +247,25 @@ function loadTopics() {
 
   });
 
-}
+}  
+function loadLectureBatches() {
 
+  const batchSelect =
+    document.getElementById("batch_id");
+
+  batches.forEach(batch => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = batch.id;
+    option.textContent = batch.name;
+
+    batchSelect.appendChild(option);
+
+  });
+
+}
   async function loadLectureTopics() {
 
   const topicSelect =
@@ -645,6 +662,7 @@ async function addTopic() {
 
 checkAdmin();
 loadTopics();
+loadLectureBatches();
 loadLectureTopics();
 loadLectures();
 
