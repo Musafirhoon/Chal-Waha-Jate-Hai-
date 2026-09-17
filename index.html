@@ -351,11 +351,9 @@ async function loadBatches() {
 
     card.onclick = function() {
 
-      if (batch.id === "batch-1") {
-        showSubjects();
-      }
+  showSubjects(batch.id);
 
-    };
+};
 
     batchList.appendChild(card);
 
