@@ -452,6 +452,55 @@ function loadLectureBatches() {
   );
 
 }
+
+  async function addSubject() {
+
+  const name =
+    document.getElementById("subject_name").value.trim();
+
+  const batchId =
+    document.getElementById("subject_batch_id").value.trim();
+
+  const message =
+    document.getElementById("subject-message");
+
+  if (!name || !batchId) {
+    message.textContent =
+      "⚠️ Subject name aur batch select karo.";
+    return;
+  }
+
+  const id = name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-");
+
+  const { error } =
+    await supabaseClient
+      .from("subjects")
+      .insert([
+        {
+          id: id,
+          name: name,
+          batch_id: batchId
+        }
+      ]);
+
+  if (error) {
+    console.error(error);
+    message.textContent =
+      "❌ Subject add nahi ho paaya: " +
+      error.message;
+    return;
+  }
+
+  message.textContent =
+    "✅ Subject successfully add ho gaya.";
+
+  document.getElementById("subject_name").value = "";
+  document.getElementById("subject_batch_id").value = "";
+
+}
   
 async function addTopic() {
 
