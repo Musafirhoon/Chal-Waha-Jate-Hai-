@@ -545,13 +545,44 @@ function loadLectureBatches() {
 
       <br>
       ID: ${escapeHtml(subject.id)}
+
+      <br><br>
+
+      <button
+        class="edit-btn"
+        onclick="showSubjectEditForm('${subject.id}')">
+        ✏️ Edit
+      </button>
+
+      <button
+        class="delete-btn"
+        onclick="deleteSubject('${subject.id}')">
+        🗑️ Delete
+      </button>
+
+      <div
+        id="subject-edit-${subject.id}"
+        class="edit-form hidden">
+
+        <input
+          id="subject-edit-name-${subject.id}"
+          value="${escapeHtml(subject.name || '')}"
+          placeholder="Subject Name">
+
+        <button
+          class="save-btn"
+          onclick="updateSubject('${subject.id}')">
+          💾 Save
+        </button>
+
+      </div>
     `;
 
     list.appendChild(div);
 
   });
 
-}
+  }
   
 async function addTopic() {
 
