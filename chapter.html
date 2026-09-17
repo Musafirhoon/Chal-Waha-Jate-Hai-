@@ -125,7 +125,7 @@ async function loadLecturesFromSupabase() {
     .from("courses")
     .select("id, name, description, lecture_id, batch_id, subject_id, chapter_id, video")
     .eq("subject_id", subjectId)
-    .eq("chapter_id", chapterId)
+    .in("chapter_id", ["chapter-1", "chapter-2", "chapter-3"])
     .order("lecture_id", { ascending: true });
 
   if (error) {
@@ -178,7 +178,6 @@ async function loadLecturesFromSupabase() {
   });
 
 }
-
 
 if (selectedItem) {
 
