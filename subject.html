@@ -107,7 +107,19 @@ const chapterList =
 
 async function loadSubjectTopics() {
 
-  subjectTitle.textContent = subjectId;
+  const { data: subjectData, error: subjectError } =
+  await supabaseClient
+    .from("subjects")
+    .select("name")
+    .eq("id", subjectId)
+    .eq("batch_id", batchId)
+    .maybeSingle();
+
+if (subjectError || !subjectData) {
+  subjectTitle.textContent = "Subject";
+} else {
+  subjectTitle.textContent = subjectData.name;
+}
 
   chapterList.innerHTML = `
     <div class="card">
