@@ -81,65 +81,128 @@
 
 </div>
 
-<script src="data.js"></script>
-  <script src="supabase.js"></script>
+<script src="supabase.js"></script>
+
+<script>
 <script>
 
-  const params = new URLSearchParams(window.location.search);
+  const params =
+  new URLSearchParams(window.location.search);
 
-  const subjectId = params.get("subject");
+const subjectId =
+  params.get("subject");
 
-  const subjectTitle = document.getElementById("subject-title");
-  const chapterList = document.getElementById("chapter-list");
-  
-  let selectedSubject = null;
+const batchId =
+  params.get("batch") || "batch-1";
 
-  batches.forEach(batch => {
+const subjectTitle =
+  document.getElementById("subject-title");
 
-    batch.subjects.forEach(subject => {
+const chapterList =
+  document.getElementById("chapter-list");
 
-      if (subject.id === subjectId) {
-        selectedSubject = subject;
-      }
 
-    });
+async function loadSubjectTopics() {
 
-  });
+  chapterList.innerHTML = `
+    <div class="card">
+      <h3>Topics load ho rahe hain...</h3>
+    </div>
+  `;
 
-  if (selectedSubject) {
 
-  subjectTitle.textContent = selectedSubject.name;
+  const { data, error } =
+    await supabaseClient
+      .from("topics")
+      .select("id, name")
+      .eq("batch_id", batchId)
+      .eq("subject_id", subjectId)
+      .order("created_at", {
+        ascending: true
+      });
 
-  if (selectedSubject.chapters) {
 
-    selectedSubject.chapters.forEach(chapter => {
+  if (error) {
 
-      const card = document.createElement("div");
-
-      card.className = "card";
-
-      card.innerHTML = `
-        <h3>${chapter.name}</h3>
-      `;
-
-      card.onclick = function() {
-  window.location.href =
-    "chapter.html?subject=" + subjectId + "&chapter=" + chapter.id;
-};
-chapterList.appendChild(card);
-    });
-
-  } else {
+    console.error(
+      "Topics load error:",
+      error
+    );
 
     chapterList.innerHTML = `
       <div class="card">
-        <h3>Coming Soon</h3>
+        <h3>❌ Topics load nahi ho paaye.</h3>
       </div>
     `;
 
+    return;
   }
 
+
+  if (!data || data.length === 0) {
+
+    chapterList.innerHTML = `
+      <div class="card">
+        <h3>Abhi koi topic available nahi hai.</h3>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  chapterList.innerHTML = "";
+
+
+  data.forEach(function(topic) {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${topic.name}</h3>
+    `;
+
+
+    card.onclick = function() {
+
+      window.location.href =
+        "chapter.html?subject=" +
+        encodeURIComponent(subjectId) +
+        "&chapter=" +
+        encodeURIComponent(topic.id);
+
+    };
+
+
+    chapterList.appendChild(card);
+
+  });
+
 }
+
+
+async function loadSubjectName() {
+
+  if (subjectId === "gs") {
+
+    subjectTitle.textContent =
+      "🌍 GS";
+
+    return;
+
+  }
+
+  subjectTitle.textContent =
+    subjectId || "Subject";
+
+}
+
+
+loadSubjectName();
+loadSubjectTopics();
 
 </script>
 
