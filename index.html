@@ -470,31 +470,69 @@
               card
             );
 
-          }
-        );
+async function loadSubjects() {
 
+  const subjectList =
+    document.getElementById("subject-list");
+
+  subjectList.innerHTML = "";
+
+  const kiloBatch =
+    batches.find(batch => batch.id === "batch-1");
+
+  if (!kiloBatch || !kiloBatch.subjects) {
+
+    subjectList.innerHTML = `
+      <div class="error">
+        ❌ Subjects nahi mile.
+      </div>
+    `;
+
+    return;
+  }
+
+  kiloBatch.subjects.forEach(function(subject) {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${subject.name}</h3>
+    `;
+
+    card.onclick = function() {
+
+      if (subject.id === "gs") {
+
+        window.location.href =
+          "subject.html?subject=gs";
 
       }
 
-      catch (error) {
+      else if (subject.page === "english") {
 
-        console.error(
-          "Unexpected error:",
-          error
-        );
-
-
-        subjectList.innerHTML = `
-          <div class="error">
-            ❌ Kuch problem aa gayi.
-            <br><br>
-            ${error.message}
-          </div>
-        `;
+        window.location.href =
+          "english.html";
 
       }
 
-    }
+      else {
+
+        window.location.href =
+          "subject.html?subject=" +
+          encodeURIComponent(subject.id);
+
+      }
+
+    };
+
+    subjectList.appendChild(card);
+
+  });
+
+}
 
 
 
