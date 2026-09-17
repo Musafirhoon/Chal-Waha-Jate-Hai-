@@ -97,6 +97,7 @@ const lectureList = document.getElementById("lecture-list");
 let selectedTopic = null;
 
 async function loadTopicFromSupabase() {
+async function loadTopicFromSupabase() {
 
   const { data, error } = await supabaseClient
     .from("topics")
@@ -106,15 +107,39 @@ async function loadTopicFromSupabase() {
     .maybeSingle();
 
   if (error) {
+
     console.error("Topic load error:", error);
+
+    chapterTitle.textContent = "❌ Error";
+    lectureList.innerHTML = `
+      <div class="card">
+        <h3>Topic load nahi ho paaya.</h3>
+      </div>
+    `;
+
     return;
   }
 
   selectedTopic = data;
 
-  if (selectedTopic) {
-loadTopicFromSupabase();
-  } 
+  if (!selectedTopic) {
+
+    chapterTitle.textContent = "Topic Not Found";
+
+    lectureList.innerHTML = `
+      <div class="card">
+        <h3>❌ Topic nahi mila.</h3>
+      </div>
+    `;
+
+    return;
+  }
+
+  chapterTitle.textContent = selectedTopic.name;
+
+  loadLecturesFromSupabase();
+
+}
 
 console.log("Subject:", subjectId);
 console.log("Topic:", topicId);
@@ -182,23 +207,7 @@ async function loadLecturesFromSupabase() {
 }
 
 
-if (selectedTopic) {
-
-  chapterTitle.textContent = selectedTopic.name;
-
-  loadLecturesFromSupabase();
-
-} else {
-
-  chapterTitle.textContent = "Topic Not Found";
-
-  lectureList.innerHTML = `
-    <div class="card">
-      <h3>❌ Topic nahi mila.</h3>
-    </div>
-  `;
-
-}
+loadTopicFromSupabase();
 </script>
 
 </body>
