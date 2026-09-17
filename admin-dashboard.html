@@ -358,6 +358,7 @@ function loadLectureBatches() {
 
 }  
   function loadLectureSubjects() {
+async function loadLectureSubjects() {
 
   const batchSelect =
     document.getElementById("batch_id");
@@ -365,18 +366,33 @@ function loadLectureBatches() {
   const subjectSelect =
     document.getElementById("subject_id");
 
-  batchSelect.addEventListener("change", function () {
+  async function updateSubjects() {
 
     subjectSelect.innerHTML =
       '<option value="">Select Subject</option>';
 
-    const selectedBatch = batches.find(
-      batch => batch.id === batchSelect.value
-    );
+    const batchId = batchSelect.value;
 
-    if (!selectedBatch) return;
+    if (!batchId) return;
 
-    selectedBatch.subjects.forEach(subject => {
+    const { data, error } =
+      await supabaseClient
+        .from("subjects")
+        .select("id, name")
+        .eq("batch_id", batchId)
+        .order("created_at", {
+          ascending: true
+        });
+
+    if (error) {
+      console.error(
+        "Subjects load error:",
+        error
+      );
+      return;
+    }
+
+    data.forEach(subject => {
 
       const option =
         document.createElement("option");
@@ -388,7 +404,12 @@ function loadLectureBatches() {
 
     });
 
-  });
+  }
+
+  batchSelect.addEventListener(
+    "change",
+    updateSubjects
+  );
 
 }
   async function loadLectureTopics() {
