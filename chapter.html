@@ -95,14 +95,12 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 
- document.getElementById("back-to-subject").addEventListener("click", function(event) {
+ document.getElementById("back-to-subject").onclick = function() {
 
-  event.preventDefault();
-
-  const batchId = params.get("batch") || "batch-1";
+  const batchId = params.get("batch");
   const subjectId = params.get("subject");
 
-  if (!subjectId) {
+  if (!batchId || !subjectId) {
     window.location.href = "index.html";
     return;
   }
@@ -113,7 +111,7 @@ const params = new URLSearchParams(window.location.search);
     "&subject=" +
     encodeURIComponent(subjectId);
 
-});
+};
 const subjectId = params.get("subject");
 const topicId = params.get("chapter");
 
