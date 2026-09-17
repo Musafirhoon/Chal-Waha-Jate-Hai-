@@ -90,7 +90,7 @@
 <script>
 <script>
 
-  const params =
+const params =
   new URLSearchParams(window.location.search);
 
 const subjectId =
@@ -106,6 +106,8 @@ const chapterList =
 
 
 async function loadSubjectTopics() {
+
+  subjectTitle.textContent = "🌍 GS";
 
   chapterList.innerHTML = `
     <div class="card">
@@ -125,16 +127,17 @@ async function loadSubjectTopics() {
       });
 
 
-  if (error) {
+  console.log("Subject ID:", subjectId);
+  console.log("Batch ID:", batchId);
+  console.log("Topics:", data);
+  console.log("Error:", error);
 
-    console.error(
-      "Topics load error:",
-      error
-    );
+
+  if (error) {
 
     chapterList.innerHTML = `
       <div class="card">
-        <h3>❌ Topics load nahi ho paaye.</h3>
+        <h3>❌ ${error.message}</h3>
       </div>
     `;
 
@@ -146,7 +149,7 @@ async function loadSubjectTopics() {
 
     chapterList.innerHTML = `
       <div class="card">
-        <h3>Abhi koi topic available nahi hai.</h3>
+        <h3>❌ Koi topic nahi mila.</h3>
       </div>
     `;
 
@@ -168,7 +171,6 @@ async function loadSubjectTopics() {
       <h3>${topic.name}</h3>
     `;
 
-
     card.onclick = function() {
 
       window.location.href =
@@ -179,7 +181,6 @@ async function loadSubjectTopics() {
 
     };
 
-
     chapterList.appendChild(card);
 
   });
@@ -187,24 +188,6 @@ async function loadSubjectTopics() {
 }
 
 
-async function loadSubjectName() {
-
-  if (subjectId === "gs") {
-
-    subjectTitle.textContent =
-      "🌍 GS";
-
-    return;
-
-  }
-
-  subjectTitle.textContent =
-    subjectId || "Subject";
-
-}
-
-
-loadSubjectName();
 loadSubjectTopics();
 
 </script>
