@@ -271,7 +271,98 @@
     /*
       LOAD SUBJECTS
     */
+async function loadBatches() {
 
+  const batchList =
+    document.getElementById("batch-list");
+
+  batchList.innerHTML = `
+    <div class="loading">
+      Batches load ho rahe hain...
+    </div>
+  `;
+
+  const { data, error } =
+    await supabaseClient
+      .from("batches")
+      .select("id, name, target")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error("Batch load error:", error);
+
+    batchList.innerHTML = `
+      <div class="error">
+        ❌ Batches load nahi ho paaye.
+      </div>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    batchList.innerHTML = `
+      <div class="loading">
+        Abhi koi batch available nahi hai.
+      </div>
+    `;
+
+    return;
+  }
+
+  batchList.innerHTML = "";
+
+  data.forEach(function(batch) {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="batch-poster">
+        Poster yahan lagega
+      </div>
+
+      <h3>
+        ${batch.name}
+      </h3>
+
+      <p>
+        ${batch.target || ""}
+      </p>
+
+      <p>
+        🎓 CDS Aspirants ke liye
+      </p>
+
+      <p>
+        📚 Mathematics • General Studies • English
+      </p>
+
+      <p>
+        🎥 Lectures • 📝 Notes • 🧪 Tests
+      </p>
+    `;
+
+    card.onclick = function() {
+
+      if (batch.id === "batch-1") {
+        showSubjects();
+      }
+
+    };
+
+    batchList.appendChild(card);
+
+  });
+
+}
+    
     async function loadSubjects() {
 
   const subjectList =
