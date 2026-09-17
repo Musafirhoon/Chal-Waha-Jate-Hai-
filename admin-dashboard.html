@@ -601,6 +601,97 @@ function showTopicEditForm(id) {
   loadLectureTopics();
 
 }
+  async function loadBatchList() {
+
+  const list =
+    document.getElementById("batchList");
+
+  const { data, error } =
+    await supabaseClient
+      .from("batches")
+      .select("id, name, target")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error("Batch list error:", error);
+
+    list.innerHTML =
+      "❌ " + error.message;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML =
+      "No batches found.";
+
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(batch => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "lecture";
+
+    div.innerHTML = `
+      <strong>${escapeHtml(batch.name)}</strong>
+
+      <br>
+      Target: ${escapeHtml(batch.target || "")}
+
+      <br>
+      ID: ${escapeHtml(batch.id)}
+
+      <br><br>
+
+      <button
+        class="edit-btn"
+        onclick="showBatchEditForm('${batch.id}')">
+        ✏️ Edit
+      </button>
+
+      <button
+        class="delete-btn"
+        onclick="deleteBatch('${batch.id}')">
+        🗑️ Delete
+      </button>
+
+      <div
+        id="batch-edit-${batch.id}"
+        class="edit-form hidden">
+
+        <input
+          id="batch-edit-name-${batch.id}"
+          value="${escapeHtml(batch.name || '')}"
+          placeholder="Batch Name">
+
+        <input
+          id="batch-edit-target-${batch.id}"
+          value="${escapeHtml(batch.target || '')}"
+          placeholder="Target">
+
+        <button
+          class="save-btn"
+          onclick="updateBatch('${batch.id}')">
+          💾 Save
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(div);
+
+  });
+
+}
   
   async function addLecture() {
 
