@@ -691,6 +691,61 @@ function showTopicEditForm(id) {
 
   });
 
+} 
+  
+async function addBatch() {
+
+  const name =
+    document.getElementById("batch_name").value.trim();
+
+  const target =
+    document.getElementById("batch_target").value.trim();
+
+  const message =
+    document.getElementById("batch-message");
+
+  if (!name) {
+
+    message.textContent =
+      "⚠️ Batch name required hai.";
+
+    return;
+  }
+
+  const id = name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-");
+
+  const { error } =
+    await supabaseClient
+      .from("batches")
+      .insert([
+        {
+          id: id,
+          name: name,
+          target: target
+        }
+      ]);
+
+  if (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "❌ Batch add nahi ho paaya.";
+
+    return;
+  }
+
+  message.textContent =
+    "✅ Batch successfully add ho gaya.";
+
+  document.getElementById("batch_name").value = "";
+  document.getElementById("batch_target").value = "";
+
+  loadBatchList();
+
 }
   
   async function addLecture() {
