@@ -339,12 +339,28 @@ function loadTopics() {
   });
 
 }  
-function loadLectureBatches() {
+async function loadLectureBatches() {
 
   const batchSelect =
     document.getElementById("batch_id");
 
-  batches.forEach(batch => {
+  const { data, error } =
+    await supabaseClient
+      .from("batches")
+      .select("id, name")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+    console.error(
+      "Lecture batches load error:",
+      error
+    );
+    return;
+  }
+
+  data.forEach(batch => {
 
     const option =
       document.createElement("option");
@@ -356,7 +372,7 @@ function loadLectureBatches() {
 
   });
 
-}  
+}
   function loadLectureSubjects() {
 async function loadLectureSubjects() {
 
