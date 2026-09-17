@@ -266,6 +266,40 @@ function loadLectureBatches() {
 
   });
 
+}  
+  function loadLectureSubjects() {
+
+  const batchSelect =
+    document.getElementById("batch_id");
+
+  const subjectSelect =
+    document.getElementById("subject_id");
+
+  batchSelect.addEventListener("change", function () {
+
+    subjectSelect.innerHTML =
+      '<option value="">Select Subject</option>';
+
+    const selectedBatch = batches.find(
+      batch => batch.id === batchSelect.value
+    );
+
+    if (!selectedBatch) return;
+
+    selectedBatch.subjects.forEach(subject => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = subject.id;
+      option.textContent = subject.name;
+
+      subjectSelect.appendChild(option);
+
+    });
+
+  });
+
 }
   async function loadLectureTopics() {
 
@@ -664,6 +698,7 @@ async function addTopic() {
 checkAdmin();
 loadTopics();
 loadLectureBatches();
+loadLectureSubjects();
 loadLectureTopics();
 loadLectures();
 
