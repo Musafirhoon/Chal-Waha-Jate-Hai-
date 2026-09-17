@@ -88,13 +88,21 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 
-  document.getElementById("back-to-subject").onclick = function() {
+  document.getElementById("back-to-subject").onclick = function(event) {
+
+  event.preventDefault();
+
+  const batchId =
+    params.get("batch");
+
+  const subjectId =
+    params.get("subject");
 
   window.location.href =
     "subject.html?batch=" +
-    encodeURIComponent(params.get("batch") || "batch-1") +
+    encodeURIComponent(batchId) +
     "&subject=" +
-    encodeURIComponent(params.get("subject"));
+    encodeURIComponent(subjectId);
 
 };
 const subjectId = params.get("subject");
