@@ -298,14 +298,34 @@ async function loadSubjectBatches() {
 
 }
   
-function loadTopics() {
+async function loadTopics() {
 
-  const batchSelect = document.getElementById("topic_batch_id");
-  const subjectSelect = document.getElementById("topic_subject_id");
+  const batchSelect =
+    document.getElementById("topic_batch_id");
 
-  batches.forEach(batch => {
+  const subjectSelect =
+    document.getElementById("topic_subject_id");
 
-    const option = document.createElement("option");
+  const { data: batchesData, error: batchError } =
+    await supabaseClient
+      .from("batches")
+      .select("id, name")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (batchError) {
+    console.error("Topic batch load error:", batchError);
+    return;
+  }
+
+  batchSelect.innerHTML =
+    '<option value="">Select Batch</option>';
+
+  batchesData.forEach(function(batch) {
+
+    const option =
+      document.createElement("option");
 
     option.value = batch.id;
     option.textContent = batch.name;
@@ -314,20 +334,56 @@ function loadTopics() {
 
   });
 
-  batchSelect.addEventListener("change", function () {
+
+  batchSelect.addEventListener("change", async function() {
+
+    subjectSelect.innerHTML =
+      '<option value="">Loading Subjects...</option>';
+
+    const batchId = batchSelect.value;
+
+    if (!batchId) {
+      subjectSelect.innerHTML =
+        '<option value="">Select Subject</option>';
+      return;
+    }
+
+    const { data: subjectsData, error: subjectError } =
+      await supabaseClient
+        .from("subjects")
+        .select("id, name")
+        .eq("batch_id", batchId)
+        .order("created_at", {
+          ascending: true
+        });
+
+    if (subjectError) {
+      console.error(
+        "Topic subject load error:",
+        subjectError
+      );
+
+      subjectSelect.innerHTML =
+        '<option value="">Subject load failed</option>';
+
+      return;
+    }
 
     subjectSelect.innerHTML =
       '<option value="">Select Subject</option>';
 
-    const selectedBatch = batches.find(
-      batch => batch.id === batchSelect.value
-    );
+    if (!subjectsData || subjectsData.length === 0) {
 
-    if (!selectedBatch) return;
+      subjectSelect.innerHTML =
+        '<option value="">No subjects found</option>';
 
-    selectedBatch.subjects.forEach(subject => {
+      return;
+    }
 
-      const option = document.createElement("option");
+    subjectsData.forEach(function(subject) {
+
+      const option =
+        document.createElement("option");
 
       option.value = subject.id;
       option.textContent = subject.name;
@@ -338,7 +394,7 @@ function loadTopics() {
 
   });
 
-}  
+}
 async function loadLectureBatches() {
 
   const batchSelect =
