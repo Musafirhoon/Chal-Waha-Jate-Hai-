@@ -452,10 +452,12 @@ async function loadSubjects(batchId) {
 
 
       history.replaceState(
-        null,
-        "",
-        "#subjects"
-      );
+  null,
+  "",
+  "?batch=" +
+  encodeURIComponent(batchId) +
+  "#subjects"
+);
 
 
       loadSubjects(batchId);
