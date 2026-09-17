@@ -410,6 +410,94 @@ async function addTopic() {
   document.getElementById("topic_batch_id").value = "";
   document.getElementById("topic_subject_id").value = "";
 
+} 
+  async function loadTopicList() {
+
+  const list =
+    document.getElementById("topicList");
+
+  const { data, error } =
+    await supabaseClient
+      .from("topics")
+      .select("id, name, batch_id, subject_id")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error("Topic list error:", error);
+
+    list.innerHTML =
+      "❌ " + error.message;
+
+    return;
+
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML =
+      "No topics found.";
+
+    return;
+
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(topic => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "lecture";
+
+    div.innerHTML = `
+      <strong>${escapeHtml(topic.name)}</strong>
+
+      <br>
+      Batch: ${escapeHtml(topic.batch_id)}
+
+      <br>
+      Subject: ${escapeHtml(topic.subject_id)}
+
+      <br><br>
+
+      <button
+        class="edit-btn"
+        onclick="showTopicEditForm('${topic.id}')">
+        ✏️ Edit
+      </button>
+
+      <button
+        class="delete-btn"
+        onclick="deleteTopic('${topic.id}')">
+        🗑️ Delete
+      </button>
+
+      <div
+        id="topic-edit-${topic.id}"
+        class="edit-form hidden">
+
+        <input
+          id="topic-edit-name-${topic.id}"
+          value="${escapeHtml(topic.name || '')}"
+          placeholder="Topic Name">
+
+        <button
+          class="save-btn"
+          onclick="updateTopic('${topic.id}')">
+          💾 Save
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(div);
+
+  });
+
 }
   
   async function addLecture() {
