@@ -17,7 +17,6 @@ const batches = [
 
         chapters: [
           {
-          {
   id: "ancient-history",
   name: "🏛️ Ancient History",
 
