@@ -374,6 +374,7 @@ async function loadLectureBatches() {
 
 }
 async function loadLectureSubjects() {
+async function loadLectureSubjects() {
 
   const batchSelect =
     document.getElementById("batch_id");
@@ -381,7 +382,7 @@ async function loadLectureSubjects() {
   const subjectSelect =
     document.getElementById("subject_id");
 
-  async function updateSubjects() {
+  batchSelect.addEventListener("change", async function () {
 
     subjectSelect.innerHTML =
       '<option value="">Select Subject</option>';
@@ -400,14 +401,17 @@ async function loadLectureSubjects() {
         });
 
     if (error) {
-      console.error(
-        "Subjects load error:",
-        error
-      );
+      console.error("Subjects load error:", error);
       return;
     }
 
-    data.forEach(subject => {
+    if (!data || data.length === 0) {
+      subjectSelect.innerHTML =
+        '<option value="">No subjects found</option>';
+      return;
+    }
+
+    data.forEach(function(subject) {
 
       const option =
         document.createElement("option");
@@ -419,12 +423,7 @@ async function loadLectureSubjects() {
 
     });
 
-  }
-
-  batchSelect.addEventListener(
-    "change",
-    updateSubjects
-  );
+  });
 
 }
   async function loadLectureTopics() {
