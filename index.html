@@ -318,160 +318,6 @@
 
     async function loadSubjects() {
 
-      const subjectList =
-        document.getElementById("subject-list");
-
-
-      subjectList.innerHTML = `
-        <div class="loading">
-          ⏳ Subjects load ho rahe hain...
-        </div>
-      `;
-
-
-      try {
-
-
-        const {
-          data,
-          error
-        } = await supabaseClient
-
-          .from("courses")
-
-          .select(
-            "subject_id, name, batch_id"
-          )
-
-          .eq(
-            "batch_id",
-            "batch-1"
-          );
-
-
-        console.log(
-          "Supabase subjects:",
-          data
-        );
-
-
-        if (error) {
-
-          console.error(
-            "Supabase error:",
-            error
-          );
-
-
-          subjectList.innerHTML = `
-            <div class="error">
-              ❌ Subjects load nahi ho paaye.
-              <br><br>
-              ${error.message}
-            </div>
-          `;
-
-          return;
-
-        }
-
-
-        if (
-          !data ||
-          data.length === 0
-        ) {
-
-          subjectList.innerHTML = `
-            <div class="error">
-              ❌ KILO BATCH mein abhi koi subject nahi mila.
-            </div>
-          `;
-
-          return;
-
-        }
-
-
-
-        /*
-          Duplicate subjects remove
-        */
-
-        const uniqueSubjects = [];
-
-        const seen = new Set();
-
-
-        data.forEach(function(row) {
-
-          if (
-            row.subject_id &&
-            !seen.has(row.subject_id)
-          ) {
-
-            seen.add(
-              row.subject_id
-            );
-
-            uniqueSubjects.push(row);
-
-          }
-
-        });
-
-
-
-        /*
-          Clear loading
-        */
-
-        subjectList.innerHTML = "";
-
-
-
-        /*
-          Create subject cards
-        */
-
-        uniqueSubjects.forEach(
-          function(subject) {
-
-
-            const card =
-              document.createElement("div");
-
-
-            card.className =
-              "card";
-
-
-            card.innerHTML = `
-  <h3>
-    📚 ${subject.subject_id === "gs" ? "GS" : subject.name}
-  </h3>
-`;
-
-
-
-            card.onclick =
-              function() {
-
-                window.location.href =
-                  "subject.html?subject=" +
-                  encodeURIComponent(
-                    subject.subject_id
-                  );
-
-              };
-
-
-
-            subjectList.appendChild(
-              card
-            );
-
-async function loadSubjects() {
-
   const subjectList =
     document.getElementById("subject-list");
 
@@ -509,16 +355,12 @@ async function loadSubjects() {
         window.location.href =
           "subject.html?subject=gs";
 
-      }
-
-      else if (subject.page === "english") {
+      } else if (subject.page === "english") {
 
         window.location.href =
           "english.html";
 
-      }
-
-      else {
+      } else {
 
         window.location.href =
           "subject.html?subject=" +
@@ -533,8 +375,6 @@ async function loadSubjects() {
   });
 
 }
-
-
 
     /*
       SHOW SUBJECTS
