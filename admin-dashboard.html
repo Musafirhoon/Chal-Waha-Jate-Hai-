@@ -803,7 +803,39 @@ async function updateBatch(id) {
   loadBatchList();
 
 }
-  
+
+  async function deleteBatch(id) {
+
+  const confirmDelete =
+    confirm("Kya tum is batch ko delete karna chahte ho?");
+
+  if (!confirmDelete) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("batches")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Batch delete failed: " +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("✅ Batch deleted successfully!");
+
+  loadBatchList();
+
+}
   
   async function addLecture() {
 
