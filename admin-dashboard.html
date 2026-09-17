@@ -180,7 +180,34 @@
     }
 
   }
+function loadTopics() {
 
+  const topicSelect = document.getElementById("topic_id");
+
+  batches.forEach(batch => {
+
+    batch.subjects.forEach(subject => {
+
+      if (subject.chapters) {
+
+        subject.chapters.forEach(topic => {
+
+          const option = document.createElement("option");
+
+          option.value = topic.id;
+          option.textContent = topic.name;
+
+          topicSelect.appendChild(option);
+
+        });
+
+      }
+
+    });
+
+  });
+
+}
 
   async function addLecture() {
 
@@ -496,7 +523,8 @@
 
 
   checkAdmin();
-  loadLectures();
+loadTopics();
+loadLectures();
 
 </script>
 
