@@ -17,44 +17,28 @@ const batches = [
 
         chapters: [
           {
-            id: "ancient-history",
-            name: "🏛️ Ancient History",
+          {
+  id: "ancient-history",
+  name: "🏛️ Ancient History",
 
-            chapters: [
-              {
-                id: "chapter-1",
-                name: "Chapter 1",
-
-                lectures: [
-                  {
-                    id: "lecture-1",
-                    name: "Lecture 1",
-                    video: "1nudGgkObV7FIUtQWm_HxT75KhUKHYLJC"
-                  },
-                  {
-  id: "lecture-2",
-  name: "Lecture 2",
-  video: "1AH2a6boFj-6TVYMNoMbg2260bbEWbRNW"
+  lectures: [
+    {
+      id: "lecture-1",
+      name: "Lecture 1",
+      video: "1nudGgkObV7FIUtQWm_HxT75KhUKHYLJC"
+    },
+    {
+      id: "lecture-2",
+      name: "Lecture 2",
+      video: "1AH2a6boFj-6TVYMNoMbg2260bbEWbRNW"
+    },
+    {
+      id: "lecture-3",
+      name: "Lecture 3",
+      video: "1aRqvX0yaQUVOGKC92PBzEeV7g1B0ThdE"
+    }
+  ]
 },
-                  {
-  id: "lecture-3",
-  name: "Lecture 3",
-  video: "1aRqvX0yaQUVOGKC92PBzEeV7g1B0ThdE"
-}
-                ]
-              },
-
-              {
-                id: "chapter-2",
-                name: "Chapter 2"
-              },
-
-              {
-                id: "chapter-3",
-                name: "Chapter 3"
-              }
-            ]
-          },
 
           {
             id: "medieval-history",
