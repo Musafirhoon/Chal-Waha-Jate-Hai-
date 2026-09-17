@@ -116,105 +116,66 @@
 
 <script>
 
-  const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
-  const subjectId = params.get("subject");
-  const chapterId = params.get("chapter");
-  const lectureId = params.get("lecture");
+const subjectId = params.get("subject");
+const topicId = params.get("chapter");
+const lectureId = params.get("lecture");
 
-  const lectureTitle = document.getElementById("lecture-title");
-  const lectureName = document.getElementById("lecture-name");
-  const videoPlayer = document.getElementById("video-player");
-  async function loadLectureFromSupabase() {
+const lectureTitle = document.getElementById("lecture-title");
+const lectureName = document.getElementById("lecture-name");
+const videoPlayer = document.getElementById("video-player");
+
+
+async function loadLectureFromSupabase() {
 
   const { data, error } = await supabaseClient
     .from("courses")
-    .select("name, description, lecture_id, subject_id, chapter_id, video")
+    .select("name, description, lecture_id, subject_id, topic_id, video")
     .eq("subject_id", subjectId)
-    .eq("chapter_id", chapterId)
+    .eq("topic_id", topicId)
     .eq("lecture_id", lectureId)
     .maybeSingle();
 
+
   if (error) {
+
     console.error("Supabase error:", error);
+
+    lectureTitle.textContent = "❌ Error";
+    lectureName.textContent = "Lecture load nahi ho paaya.";
+
     return;
   }
 
+
   if (!data) {
+
     console.log("Supabase mein lecture nahi mila.");
+
+    lectureTitle.textContent = "Lecture Not Found";
+    lectureName.textContent = "Lecture Not Found";
+
     return;
   }
+
 
   lectureTitle.textContent = "🎥 " + data.name;
   lectureName.textContent = data.name;
+
 
   videoPlayer.src =
     "https://drive.google.com/file/d/" +
     data.video.trim() +
     "/preview";
 
-  console.log("Lecture loaded from Supabase:", data.name);
+
+  console.log("Lecture loaded:", data.name);
+
 }
 
+
 loadLectureFromSupabase();
-
-  let selectedLecture = null;
-
-  batches.forEach(batch => {
-
-    batch.subjects.forEach(subject => {
-
-      if (subject.id === subjectId && subject.chapters) {
-
-        subject.chapters.forEach(subjectChapter => {
-
-          if (
-            subjectChapter.id === chapterId &&
-            subjectChapter.chapters
-          ) {
-
-            subjectChapter.chapters.forEach(chapter => {
-
-              if (chapter.lectures) {
-
-                chapter.lectures.forEach(lecture => {
-
-                  if (lecture.id === lectureId) {
-                    selectedLecture = lecture;
-                  }
-
-                });
-
-              }
-
-            });
-
-          }
-
-        });
-
-      }
-
-    });
-
-  });
-
-  if (selectedLecture) {
-
-    lectureTitle.textContent = "🎥 " + selectedLecture.name;
-    lectureName.textContent = selectedLecture.name;
-
-    videoPlayer.src =
-  "https://drive.google.com/file/d/" +
-  selectedLecture.video.trim() +
-  "/preview";
-
-  } else {
-
-    lectureTitle.textContent = "Lecture Not Found";
-    lectureName.textContent = "Lecture Not Found";
-
-  }
 
 </script>
 
