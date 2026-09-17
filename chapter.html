@@ -74,7 +74,7 @@
 
 <div class="container">
 
-  <a class="back" href="javascript:history.back()">← Back</a>
+  <a class="back" id="back-to-subject">← Back</a>
 
   <h2 class="page-title" id="chapter-title">Chapter</h2>
 
@@ -88,6 +88,15 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 
+  document.getElementById("back-to-subject").onclick = function() {
+
+  window.location.href =
+    "subject.html?batch=" +
+    encodeURIComponent(params.get("batch") || "batch-1") +
+    "&subject=" +
+    encodeURIComponent(params.get("subject"));
+
+};
 const subjectId = params.get("subject");
 const topicId = params.get("chapter");
 
