@@ -362,7 +362,7 @@ async function loadBatches() {
 }
     
     
-async function loadSubjects() {
+async function loadSubjects(batchId) {
 
   const subjectList =
     document.getElementById("subject-list");
@@ -377,7 +377,7 @@ async function loadSubjects() {
     await supabaseClient
       .from("subjects")
       .select("id, name, batch_id")
-      .eq("batch_id", "batch-1")
+      .eq("batch_id", batchId)
       .order("created_at", {
         ascending: true
       });
@@ -456,7 +456,7 @@ async function loadSubjects() {
       );
 
 
-      loadSubjects();
+      loadSubjects(batchId);
 
     }
 
