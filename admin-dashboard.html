@@ -248,6 +248,43 @@ function loadTopics() {
 
 }
 
+  async function loadLectureTopics() {
+
+  const topicSelect =
+    document.getElementById("topic_id");
+
+  const { data, error } =
+    await supabaseClient
+      .from("topics")
+      .select("id, name")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error("Topics load error:", error);
+    return;
+
+  }
+
+  topicSelect.innerHTML =
+    '<option value="">Select Topic</option>';
+
+  data.forEach(topic => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = topic.id;
+    option.textContent = topic.name;
+
+    topicSelect.appendChild(option);
+
+  });
+
+}
+  
 async function addTopic() {
 
   const name = document.getElementById("topic_name").value.trim();
