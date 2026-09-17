@@ -237,6 +237,51 @@ function loadTopics() {
 
 }
 
+async function addTopic() {
+
+  const name = document.getElementById("topic_name").value.trim();
+  const batchId = document.getElementById("topic_batch_id").value.trim();
+  const subjectId = document.getElementById("topic_subject_id").value.trim();
+  const message = document.getElementById("topic-message");
+
+  if (!name || !batchId || !subjectId) {
+    message.textContent = "⚠️ Sabhi fields fill karo.";
+    return;
+  }
+
+  const id = name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-");
+
+  const { error } = await supabaseClient
+    .from("topics")
+    .insert([
+      {
+        id: id,
+        name: name,
+        batch_id: batchId,
+        subject_id: subjectId
+      }
+    ]);
+
+  if (error) {
+
+    console.error(error);
+
+    message.textContent = "❌ Topic add nahi ho paaya.";
+    return;
+
+  }
+
+  message.textContent = "✅ Topic successfully add ho gaya.";
+
+  document.getElementById("topic_name").value = "";
+  document.getElementById("topic_batch_id").value = "";
+  document.getElementById("topic_subject_id").value = "";
+
+}
+  
   async function addLecture() {
 
     const message =
