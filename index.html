@@ -476,13 +476,21 @@ async function loadSubjects(batchId) {
         loadBatches();
 
         if (
-          window.location.hash ===
-          "#subjects"
-        ) {
+  window.location.hash ===
+  "#subjects"
+) {
 
-          showSubjects();
+  const params =
+    new URLSearchParams(window.location.search);
 
-        }
+  const batchId =
+    params.get("batch");
+
+  if (batchId) {
+    showSubjects(batchId);
+  }
+
+}
 
       }
     );
