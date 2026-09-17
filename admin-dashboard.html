@@ -302,7 +302,7 @@ function loadTopics() {
       await supabaseClient
         .from("courses")
         .select(
-          "id, name, description, lecture_id, batch_id, subject_id, chapter_id, video"
+          "id, name, description, lecture_id, batch_id, subject_id, chapter_id, topic_id, video"
         )
         .order("created_at", {
           ascending: false
@@ -357,7 +357,7 @@ function loadTopics() {
         Subject: ${lecture.subject_id}
 
         <br>
-        Chapter: ${lecture.chapter_id}
+        Topic: ${lecture.topic_id}
 
         <br><br>
 
