@@ -186,7 +186,34 @@
 
   </div>
 
+<div class="box">
 
+  <h2>🎯 Manage Batches</h2>
+
+  <input
+    id="batch_name"
+    placeholder="Batch Name"
+  >
+
+  <input
+    id="batch_target"
+    placeholder="Target (example: CDS 1 2027 Target)"
+  >
+
+  <button
+    class="add-btn"
+    onclick="addBatch()">
+    Add Batch
+  </button>
+
+  <p id="batch-message"></p>
+
+  <div id="batchList">
+    Loading batches...
+  </div>
+
+</div>
+  
   <div class="box">
 
     <h2>📚 Existing Lectures</h2>
