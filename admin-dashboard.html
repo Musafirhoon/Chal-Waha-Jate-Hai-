@@ -583,6 +583,84 @@ function loadLectureBatches() {
   });
 
   }
+function showSubjectEditForm(id) {
+
+  const form =
+    document.getElementById("subject-edit-" + id);
+
+  form.classList.toggle("hidden");
+
+}
+
+
+async function updateSubject(id) {
+
+  const name =
+    document
+      .getElementById("subject-edit-name-" + id)
+      .value
+      .trim();
+
+  if (!name) {
+    alert("Subject name required hai.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("subjects")
+      .update({
+        name: name
+      })
+      .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    alert(
+      "❌ Subject update failed: " +
+      error.message
+    );
+    return;
+  }
+
+  alert("✅ Subject updated successfully!");
+
+  loadSubjectList();
+
+}
+
+
+async function deleteSubject(id) {
+
+  const confirmDelete =
+    confirm(
+      "Kya tum is subject ko delete karna chahte ho?"
+    );
+
+  if (!confirmDelete) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("subjects")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    alert(
+      "❌ Subject delete failed: " +
+      error.message
+    );
+    return;
+  }
+
+  alert("✅ Subject deleted successfully!");
+
+  loadSubjectList();
+
+}
   
 async function addTopic() {
 
