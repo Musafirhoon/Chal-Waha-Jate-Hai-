@@ -266,6 +266,38 @@
     }
 
   }
+async function loadSubjectBatches() {
+
+  const batchSelect =
+    document.getElementById("subject_batch_id");
+
+  const { data, error } =
+    await supabaseClient
+      .from("batches")
+      .select("id, name")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+    console.error("Subject batch load error:", error);
+    return;
+  }
+
+  data.forEach(batch => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = batch.id;
+    option.textContent = batch.name;
+
+    batchSelect.appendChild(option);
+
+  });
+
+}
+  
 function loadTopics() {
 
   const batchSelect = document.getElementById("topic_batch_id");
