@@ -446,16 +446,10 @@
 
 
             card.innerHTML = `
-
-              <h3>
-                ${subject.name}
-              </h3>
-
-              <p>
-                Subject ID: ${subject.subject_id}
-              </p>
-
-            `;
+  <h3>
+    📚 ${subject.subject_id === "gs" ? "GS" : subject.name}
+  </h3>
+`;
 
 
 
