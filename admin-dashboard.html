@@ -746,7 +746,64 @@ async function addBatch() {
 
   loadBatchList();
 
+} function showBatchEditForm(id) {
+
+  const form =
+    document.getElementById("batch-edit-" + id);
+
+  form.classList.toggle("hidden");
+
 }
+
+
+async function updateBatch(id) {
+
+  const name =
+    document
+      .getElementById("batch-edit-name-" + id)
+      .value
+      .trim();
+
+  const target =
+    document
+      .getElementById("batch-edit-target-" + id)
+      .value
+      .trim();
+
+  if (!name) {
+
+    alert("Batch name required hai.");
+
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("batches")
+      .update({
+        name: name,
+        target: target
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Batch update failed: " +
+      error.message
+    );
+
+    return;
+  }
+
+  alert("✅ Batch updated successfully!");
+
+  loadBatchList();
+
+}
+  
   
   async function addLecture() {
 
