@@ -85,55 +85,39 @@
 <script src="data.js"></script>
   <script src="supabase.js"></script>
 
-<script>
+const params = new URLSearchParams(window.location.search);
 
-  const params = new URLSearchParams(window.location.search);
+const subjectId = params.get("subject");
+const chapterId = params.get("chapter");
 
-  const subjectId = params.get("subject");
-  const chapterId = params.get("chapter");
-  const subChapterId = params.get("subchapter");
+const chapterTitle = document.getElementById("chapter-title");
+const lectureList = document.getElementById("lecture-list");
 
-  const chapterTitle = document.getElementById("chapter-title");
-  const lectureList = document.getElementById("lecture-list");
+let selectedItem = null;
 
-  let selectedItem = null;
+batches.forEach(batch => {
 
-  batches.forEach(batch => {
+  batch.subjects.forEach(subject => {
 
-    batch.subjects.forEach(subject => {
+    if (subject.id === subjectId && subject.chapters) {
 
-      if (subject.id === subjectId && subject.chapters) {
+      subject.chapters.forEach(chapter => {
 
-        subject.chapters.forEach(chapter => {
+        if (chapter.id === chapterId) {
+          selectedItem = chapter;
+        }
 
-          if (chapter.id === chapterId) {
+      });
 
-            if (subChapterId && chapter.chapters) {
-
-              chapter.chapters.forEach(subChapter => {
-
-                if (subChapter.id === subChapterId) {
-                  selectedItem = subChapter;
-                }
-
-              });
-
-            } else {
-
-              selectedItem = chapter;
-
-            }
-
-          }
-
-        });
-
-      }
-
-    });
+    }
 
   });
+
+});
+
 console.log("Supabase connected:", supabaseClient);
+
+
 async function loadLecturesFromSupabase() {
 
   const { data, error } = await supabaseClient
@@ -144,16 +128,30 @@ async function loadLecturesFromSupabase() {
     .order("lecture_id", { ascending: true });
 
   if (error) {
-    console.error("Supabase error:", error);
-    return;
-  }
 
-  if (!data || data.length === 0) {
-    console.log("Supabase mein lectures nahi mile.");
+    console.error("Supabase error:", error);
+
+    lectureList.innerHTML = `
+      <div class="card">
+        <h3>❌ Lectures load nahi ho paayi.</h3>
+      </div>
+    `;
+
     return;
   }
 
   lectureList.innerHTML = "";
+
+  if (!data || data.length === 0) {
+
+    lectureList.innerHTML = `
+      <div class="card">
+        <h3>Lectures Coming Soon</h3>
+      </div>
+    `;
+
+    return;
+  }
 
   data.forEach(lecture => {
 
@@ -179,81 +177,15 @@ async function loadLecturesFromSupabase() {
   });
 
 }
-  
-  if (selectedItem) {
-if (selectedItem && !subChapterId) {
+
+
+if (selectedItem) {
 
   chapterTitle.textContent = selectedItem.name;
 
-  if (selectedItem.chapters) {
-
-    selectedItem.chapters.forEach(chapter => {
-
-      const card = document.createElement("div");
-
-      card.className = "card";
-
-      card.innerHTML = `
-        <h3>📘 ${chapter.name}</h3>
-      `;
-
-      card.onclick = function() {
-
-        window.location.href =
-          "chapter.html?subject=" + subjectId +
-          "&chapter=" + chapterId +
-          "&subchapter=" + chapter.id;
-
-      };
-
-      lectureList.appendChild(card);
-
-    });
-
-  }
+  loadLecturesFromSupabase();
 
 }
-
-    else if (selectedItem.lectures) {
-
-      selectedItem.lectures.forEach(lecture => {
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-          <h3>▶️ ${lecture.name}</h3>
-        `;
-
-        card.onclick = function() {
-
-          window.location.href =
-            "lecture.html?subject=" + subjectId +
-            "&chapter=" + chapterId +
-            "&lecture=" + lecture.id;
-
-        };
-
-        lectureList.appendChild(card);
-
-      });
-
-    }
-
-    else {
-
-      lectureList.innerHTML = `
-        <div class="card">
-          <h3>Lectures Coming Soon</h3>
-        </div>
-      `;
-
-    }
-
-  }
-
-</script>
 
 </body>
 </html>
