@@ -303,38 +303,63 @@ function loadLectureBatches() {
 }
   async function loadLectureTopics() {
 
+  const batchSelect =
+    document.getElementById("batch_id");
+
+  const subjectSelect =
+    document.getElementById("subject_id");
+
   const topicSelect =
     document.getElementById("topic_id");
 
-  const { data, error } =
-    await supabaseClient
-      .from("topics")
-      .select("id, name")
-      .order("created_at", {
-        ascending: true
-      });
+  async function updateTopics() {
 
-  if (error) {
+    topicSelect.innerHTML =
+      '<option value="">Select Topic</option>';
 
-    console.error("Topics load error:", error);
-    return;
+    const batchId = batchSelect.value;
+    const subjectId = subjectSelect.value;
+
+    if (!batchId || !subjectId) return;
+
+    const { data, error } =
+      await supabaseClient
+        .from("topics")
+        .select("id, name")
+        .eq("batch_id", batchId)
+        .eq("subject_id", subjectId)
+        .order("created_at", {
+          ascending: true
+        });
+
+    if (error) {
+      console.error("Topics load error:", error);
+      return;
+    }
+
+    data.forEach(topic => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = topic.id;
+      option.textContent = topic.name;
+
+      topicSelect.appendChild(option);
+
+    });
 
   }
 
-  topicSelect.innerHTML =
-    '<option value="">Select Topic</option>';
+  batchSelect.addEventListener(
+    "change",
+    updateTopics
+  );
 
-  data.forEach(topic => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = topic.id;
-    option.textContent = topic.name;
-
-    topicSelect.appendChild(option);
-
-  });
+  subjectSelect.addEventListener(
+    "change",
+    updateTopics
+  );
 
 }
   
