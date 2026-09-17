@@ -542,6 +542,37 @@ function showTopicEditForm(id) {
   loadTopicList();
   loadLectureTopics();
 
+} 
+
+  async function deleteTopic(id) {
+
+  const confirmDelete =
+    confirm("Kya tum is topic ko delete karna chahte ho?");
+
+  if (!confirmDelete) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("topics")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    alert("❌ Topic delete failed: " + error.message);
+
+    return;
+  }
+
+  alert("✅ Topic deleted successfully!");
+
+  loadTopicList();
+  loadLectureTopics();
+
 }
   
   async function addLecture() {
