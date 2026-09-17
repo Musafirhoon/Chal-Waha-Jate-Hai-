@@ -208,26 +208,39 @@
   }
 function loadTopics() {
 
-  const topicSelect = document.getElementById("topic_id");
+  const batchSelect = document.getElementById("topic_batch_id");
+  const subjectSelect = document.getElementById("topic_subject_id");
 
   batches.forEach(batch => {
 
-    batch.subjects.forEach(subject => {
+    const option = document.createElement("option");
 
-      if (subject.chapters) {
+    option.value = batch.id;
+    option.textContent = batch.name;
 
-        subject.chapters.forEach(topic => {
+    batchSelect.appendChild(option);
 
-          const option = document.createElement("option");
+  });
 
-          option.value = topic.id;
-          option.textContent = topic.name;
+  batchSelect.addEventListener("change", function () {
 
-          topicSelect.appendChild(option);
+    subjectSelect.innerHTML =
+      '<option value="">Select Subject</option>';
 
-        });
+    const selectedBatch = batches.find(
+      batch => batch.id === batchSelect.value
+    );
 
-      }
+    if (!selectedBatch) return;
+
+    selectedBatch.subjects.forEach(subject => {
+
+      const option = document.createElement("option");
+
+      option.value = subject.id;
+      option.textContent = subject.name;
+
+      subjectSelect.appendChild(option);
 
     });
 
