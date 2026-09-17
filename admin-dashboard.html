@@ -425,7 +425,8 @@ async function loadLectureSubjects() {
   });
 
 }
-  async function loadLectureTopics() {
+
+async function loadLectureTopics() {
 
   const batchSelect =
     document.getElementById("batch_id");
@@ -439,29 +440,49 @@ async function loadLectureSubjects() {
   async function updateTopics() {
 
     topicSelect.innerHTML =
-      '<option value="">Select Topic</option>';
+      '<option value="">Loading topics...</option>';
 
     const batchId = batchSelect.value;
     const subjectId = subjectSelect.value;
 
-    if (!batchId || !subjectId) return;
+    console.log("Topic Batch:", batchId);
+    console.log("Topic Subject:", subjectId);
+
+    if (!batchId || !subjectId) {
+      topicSelect.innerHTML =
+        '<option value="">Select Topic</option>';
+      return;
+    }
 
     const { data, error } =
       await supabaseClient
         .from("topics")
-        .select("id, name")
+        .select("id, name, batch_id, subject_id")
         .eq("batch_id", batchId)
         .eq("subject_id", subjectId)
         .order("created_at", {
           ascending: true
         });
 
+    console.log("Topics:", data);
+    console.log("Topic Error:", error);
+
     if (error) {
-      console.error("Topics load error:", error);
+      topicSelect.innerHTML =
+        '<option value="">Topic load failed</option>';
       return;
     }
 
-    data.forEach(topic => {
+    topicSelect.innerHTML =
+      '<option value="">Select Topic</option>';
+
+    if (!data || data.length === 0) {
+      topicSelect.innerHTML =
+        '<option value="">No topics found</option>';
+      return;
+    }
+
+    data.forEach(function(topic) {
 
       const option =
         document.createElement("option");
@@ -486,7 +507,6 @@ async function loadLectureSubjects() {
   );
 
 }
-
   async function addSubject() {
 
   const name =
