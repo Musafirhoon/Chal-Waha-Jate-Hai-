@@ -113,24 +113,7 @@ async function loadTopicFromSupabase() {
   selectedTopic = data;
 
   if (selectedTopic) {
-
-    chapterTitle.textContent = selectedTopic.name;
-
-    loadLecturesFromSupabase();
-
-  } else {
-
-    chapterTitle.textContent = "Topic Not Found";
-
-    lectureList.innerHTML = `
-      <div class="card">
-        <h3>❌ Topic nahi mila.</h3>
-      </div>
-    `;
-
-  }
-
-}
+loadTopicFromSupabase();
 
 console.log("Subject:", subjectId);
 console.log("Topic:", topicId);
