@@ -422,8 +422,10 @@ async function loadSubjects(batchId) {
     card.onclick = function() {
 
       window.location.href =
-        "subject.html?subject=" +
-        encodeURIComponent(subject.id);
+  "subject.html?batch=" +
+  encodeURIComponent(batchId) +
+  "&subject=" +
+  encodeURIComponent(subject.id);
 
     };
 
