@@ -186,10 +186,12 @@ if (subjectError || !subjectData) {
     card.onclick = function() {
 
       window.location.href =
-        "chapter.html?subject=" +
-        encodeURIComponent(subjectId) +
-        "&chapter=" +
-        encodeURIComponent(topic.id);
+  "chapter.html?batch=" +
+  encodeURIComponent(batchId) +
+  "&subject=" +
+  encodeURIComponent(subjectId) +
+  "&chapter=" +
+  encodeURIComponent(topic.id);
 
     };
 
