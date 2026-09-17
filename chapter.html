@@ -85,16 +85,16 @@
 <script src="data.js"></script>
   <script src="supabase.js"></script>
 
+<script>
 const params = new URLSearchParams(window.location.search);
 
 const subjectId = params.get("subject");
-const chapterId = params.get("chapter");
-  console.log("Subject:", subjectId, "Chapter:", chapterId);
+const topicId = params.get("chapter");
 
 const chapterTitle = document.getElementById("chapter-title");
 const lectureList = document.getElementById("lecture-list");
 
-let selectedItem = null;
+let selectedTopic = null;
 
 batches.forEach(batch => {
 
@@ -102,10 +102,10 @@ batches.forEach(batch => {
 
     if (subject.id === subjectId && subject.chapters) {
 
-      subject.chapters.forEach(chapter => {
+      subject.chapters.forEach(topic => {
 
-        if (chapter.id === chapterId) {
-          selectedItem = chapter;
+        if (topic.id === topicId) {
+          selectedTopic = topic;
         }
 
       });
@@ -116,6 +116,8 @@ batches.forEach(batch => {
 
 });
 
+console.log("Subject:", subjectId);
+console.log("Topic:", topicId);
 console.log("Supabase connected:", supabaseClient);
 
 
@@ -123,9 +125,9 @@ async function loadLecturesFromSupabase() {
 
   const { data, error } = await supabaseClient
     .from("courses")
-    .select("id, name, description, lecture_id, batch_id, subject_id, chapter_id, video")
+    .select("id, name, description, lecture_id, batch_id, subject_id, chapter_id, topic_id, video")
     .eq("subject_id", subjectId)
-    .in("chapter_id", ["chapter-1", "chapter-2", "chapter-3"])
+    .eq("topic_id", topicId)
     .order("lecture_id", { ascending: true });
 
   if (error) {
@@ -168,7 +170,7 @@ async function loadLecturesFromSupabase() {
 
       window.location.href =
         "lecture.html?subject=" + subjectId +
-        "&chapter=" + lecture.chapter_id +
+        "&chapter=" + topicId +
         "&lecture=" + lecture.lecture_id;
 
     };
@@ -179,13 +181,28 @@ async function loadLecturesFromSupabase() {
 
 }
 
-if (selectedItem) {
 
-  chapterTitle.textContent = selectedItem.name;
+if (selectedTopic) {
+
+  chapterTitle.textContent = selectedTopic.name;
 
   loadLecturesFromSupabase();
 
+} else {
+
+  chapterTitle.textContent = "Topic Not Found";
+
+  lectureList.innerHTML = `
+    <div class="card">
+      <h3>❌ Topic nahi mila.</h3>
+    </div>
+  `;
+
 }
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
