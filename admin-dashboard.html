@@ -499,6 +499,14 @@ async function addTopic() {
   });
 
 }
+function showTopicEditForm(id) {
+
+  const form =
+    document.getElementById("topic-edit-" + id);
+
+  form.classList.toggle("hidden");
+
+}
   
   async function addLecture() {
 
