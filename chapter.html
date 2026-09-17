@@ -73,15 +73,14 @@
 </header>
 
 <div class="container">
-
-  <a
+<a
   class="back"
   id="back-to-subject"
-  href="#"
   style="position: relative; z-index: 9999; display: inline-block;"
 >
   ← Back
 </a>
+  
 
   <h2 class="page-title" id="chapter-title">Chapter</h2>
 
@@ -95,23 +94,28 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 
- document.getElementById("back-to-subject").onclick = function() {
+const backButton =
+  document.getElementById("back-to-subject");
 
-  const batchId = params.get("batch");
-  const subjectId = params.get("subject");
+const batchId =
+  params.get("batch");
 
-  if (!batchId || !subjectId) {
-    window.location.href = "index.html";
-    return;
-  }
+const subjectId =
+  params.get("subject");
 
-  window.location.href =
-  "./subject.html?batch=" +
-  encodeURIComponent(batchId) +
-  "&subject=" +
-  encodeURIComponent(subjectId);
+if (batchId && subjectId) {
 
-};
+  backButton.href =
+    "subject.html?batch=" +
+    encodeURIComponent(batchId) +
+    "&subject=" +
+    encodeURIComponent(subjectId);
+
+} else {
+
+  backButton.href = "index.html";
+
+}
 const subjectId = params.get("subject");
 const topicId = params.get("chapter");
 
