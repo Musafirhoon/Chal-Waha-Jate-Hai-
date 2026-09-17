@@ -128,7 +128,7 @@ async function loadLecturesFromSupabase() {
     .select("id, name, description, lecture_id, batch_id, subject_id, chapter_id, topic_id, video")
     .eq("subject_id", subjectId)
     .eq("topic_id", topicId)
-    .order("lecture_id", { ascending: true });
+    .order("created_at", { ascending: true });
 
   if (error) {
 
