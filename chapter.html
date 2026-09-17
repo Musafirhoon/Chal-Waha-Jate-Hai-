@@ -182,7 +182,7 @@ if (subChapterId) {
   loadLecturesFromSupabase();
 }
   
-  if (selectedItem) {
+  if (selectedItem && !subChapterId) {
 
     chapterTitle.textContent = selectedItem.name;
 
