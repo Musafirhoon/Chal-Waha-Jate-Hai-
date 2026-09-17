@@ -180,36 +180,38 @@ async function loadLecturesFromSupabase() {
 
 }
   
-  if (selectedItem && !subChapterId) {
+  if (selectedItem) {
 
-    chapterTitle.textContent = selectedItem.name;
+  chapterTitle.textContent = selectedItem.name;
 
-    if (selectedItem.chapters) {
+  if (selectedItem.chapters) {
 
-      selectedItem.chapters.forEach(chapter => {
+    selectedItem.chapters.forEach(chapter => {
 
-        const card = document.createElement("div");
+      const card = document.createElement("div");
 
-        card.className = "card";
+      card.className = "card";
 
-        card.innerHTML = `
-          <h3>📘 ${chapter.name}</h3>
-        `;
+      card.innerHTML = `
+        <h3>📘 ${chapter.name}</h3>
+      `;
 
-        card.onclick = function() {
+      card.onclick = function() {
 
-          window.location.href =
-            "chapter.html?subject=" + subjectId +
-            "&chapter=" + chapterId +
-            "&subchapter=" + chapter.id;
+        window.location.href =
+          "chapter.html?subject=" + subjectId +
+          "&chapter=" + chapterId +
+          "&subchapter=" + chapter.id;
 
-        };
+      };
 
-        lectureList.appendChild(card);
+      lectureList.appendChild(card);
 
-      });
+    });
 
-    }
+  }
+
+  }
 
     else if (selectedItem.lectures) {
 
