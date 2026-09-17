@@ -506,6 +506,42 @@ function showTopicEditForm(id) {
 
   form.classList.toggle("hidden");
 
+} 
+  async function updateTopic(id) {
+
+  const name =
+    document
+      .getElementById("topic-edit-name-" + id)
+      .value
+      .trim();
+
+  if (!name) {
+    alert("Topic name required hai.");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("topics")
+      .update({
+        name: name
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    alert("❌ Topic update failed: " + error.message);
+
+    return;
+  }
+
+  alert("✅ Topic updated successfully!");
+
+  loadTopicList();
+  loadLectureTopics();
+
 }
   
   async function addLecture() {
