@@ -89,6 +89,7 @@ const params = new URLSearchParams(window.location.search);
 
 const subjectId = params.get("subject");
 const chapterId = params.get("chapter");
+  console.log("Subject:", subjectId, "Chapter:", chapterId);
 
 const chapterTitle = document.getElementById("chapter-title");
 const lectureList = document.getElementById("lecture-list");
