@@ -106,10 +106,10 @@ const params = new URLSearchParams(window.location.search);
   }
 
   window.location.href =
-    "subject.html?batch=" +
-    encodeURIComponent(batchId) +
-    "&subject=" +
-    encodeURIComponent(subjectId);
+  "./subject.html?batch=" +
+  encodeURIComponent(batchId) +
+  "&subject=" +
+  encodeURIComponent(subjectId);
 
 };
 const subjectId = params.get("subject");
