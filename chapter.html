@@ -97,7 +97,6 @@ const lectureList = document.getElementById("lecture-list");
 let selectedTopic = null;
 
 async function loadTopicFromSupabase() {
-async function loadTopicFromSupabase() {
 
   const { data, error } = await supabaseClient
     .from("topics")
