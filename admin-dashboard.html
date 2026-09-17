@@ -501,6 +501,57 @@ function loadLectureBatches() {
   document.getElementById("subject_batch_id").value = "";
 
 }
+
+  async function loadSubjectList() {
+
+  const list =
+    document.getElementById("subjectList");
+
+  const { data, error } =
+    await supabaseClient
+      .from("subjects")
+      .select("id, name, batch_id")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+    console.error("Subject list error:", error);
+    list.innerHTML =
+      "❌ " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML =
+      "No subjects found.";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(subject => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "lecture";
+
+    div.innerHTML = `
+      <strong>${escapeHtml(subject.name)}</strong>
+
+      <br>
+      Batch: ${escapeHtml(subject.batch_id)}
+
+      <br>
+      ID: ${escapeHtml(subject.id)}
+    `;
+
+    list.appendChild(div);
+
+  });
+
+}
   
 async function addTopic() {
 
@@ -1259,6 +1310,7 @@ async function updateBatch(id) {
 
 checkAdmin();
 loadSubjectBatches();
+loadSubjectList();
 loadTopics();
 loadLectureBatches();
 loadLectureSubjects();
