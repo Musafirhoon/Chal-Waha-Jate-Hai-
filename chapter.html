@@ -96,25 +96,41 @@ const lectureList = document.getElementById("lecture-list");
 
 let selectedTopic = null;
 
-batches.forEach(batch => {
+async function loadTopicFromSupabase() {
 
-  batch.subjects.forEach(subject => {
+  const { data, error } = await supabaseClient
+    .from("topics")
+    .select("id, name, batch_id, subject_id")
+    .eq("id", topicId)
+    .eq("subject_id", subjectId)
+    .maybeSingle();
 
-    if (subject.id === subjectId && subject.chapters) {
+  if (error) {
+    console.error("Topic load error:", error);
+    return;
+  }
 
-      subject.chapters.forEach(topic => {
+  selectedTopic = data;
 
-        if (topic.id === topicId) {
-          selectedTopic = topic;
-        }
+  if (selectedTopic) {
 
-      });
+    chapterTitle.textContent = selectedTopic.name;
 
-    }
+    loadLecturesFromSupabase();
 
-  });
+  } else {
 
-});
+    chapterTitle.textContent = "Topic Not Found";
+
+    lectureList.innerHTML = `
+      <div class="card">
+        <h3>❌ Topic nahi mila.</h3>
+      </div>
+    `;
+
+  }
+
+}
 
 console.log("Subject:", subjectId);
 console.log("Topic:", topicId);
